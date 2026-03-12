@@ -12,7 +12,7 @@ git commit -m "Python Import Fixed"
 
 git push origin abhishek
 
-pythob code 
+goto github do pull request and also merge it 
 
 
-unmoiort hdbvfhbad
+and now uk git andgithub basics
