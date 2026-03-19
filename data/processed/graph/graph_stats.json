@@ -1,0 +1,12 @@
+{
+  "n_epitopes": 23884,
+  "n_proteins": 21008,
+  "n_hla": 2000,
+  "n_tcr": 57,
+  "e_source_of": 23536,
+  "e_binds_to": 71625,
+  "e_recognized": 57,
+  "e_similar_to": 119241,
+  "n_positive": 2249,
+  "n_negative": 21635
+}

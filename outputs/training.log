@@ -1,0 +1,60 @@
+2026-03-19 14:06:22.609 | INFO     | __main__:<module>:69 - Device: cuda
+2026-03-19 14:06:22.611 | INFO     | __main__:<module>:71 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-03-19 14:06:22.755 | INFO     | __main__:load_graph:231 - Loaded graph from data\processed\graph\heterogeneous_graph.pt
+2026-03-19 14:06:22.757 | INFO     | __main__:load_graph:232 -   Node types: ['epitope', 'protein', 'hla', 'tcr']
+2026-03-19 14:06:22.757 | INFO     | __main__:load_graph:233 -   Edge types: ["('protein', 'source_of', 'epitope')", "('epitope', 'binds_to', 'hla')", "('epitope', 'recognized_by', 'tcr')", "('epitope', 'similar_to', 'epitope')"]
+2026-03-19 14:06:22.832 | INFO     | __main__:make_splits:271 -   Train: 16,718 epitopes (1,574 pos / 15,144 neg)
+2026-03-19 14:06:22.833 | INFO     | __main__:make_splits:273 -   Val:   3,583 epitopes
+2026-03-19 14:06:22.833 | INFO     | __main__:make_splits:274 -   Test:  3,583 epitopes
+2026-03-19 14:06:22.913 | INFO     | __main__:main:629 -   Model parameters: 229,313
+2026-03-19 14:08:48.115 | INFO     | __main__:<module>:69 - Device: cuda
+2026-03-19 14:08:48.117 | INFO     | __main__:<module>:71 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-03-19 14:08:48.252 | INFO     | __main__:load_graph:231 - Loaded graph from data\processed\graph\heterogeneous_graph.pt
+2026-03-19 14:08:48.252 | INFO     | __main__:load_graph:232 -   Node types: ['epitope', 'protein', 'hla', 'tcr']
+2026-03-19 14:08:48.252 | INFO     | __main__:load_graph:233 -   Edge types: ["('protein', 'source_of', 'epitope')", "('epitope', 'binds_to', 'hla')", "('epitope', 'recognized_by', 'tcr')", "('epitope', 'similar_to', 'epitope')"]
+2026-03-19 14:08:48.317 | INFO     | __main__:make_splits:271 -   Train: 16,718 epitopes (1,574 pos / 15,144 neg)
+2026-03-19 14:08:48.317 | INFO     | __main__:make_splits:273 -   Val:   3,583 epitopes
+2026-03-19 14:08:48.318 | INFO     | __main__:make_splits:274 -   Test:  3,583 epitopes
+2026-03-19 14:08:48.384 | INFO     | __main__:main:630 -   Model parameters: 229,313
+2026-03-19 14:13:35.020 | INFO     | __main__:<module>:69 - Device: cuda
+2026-03-19 14:13:35.022 | INFO     | __main__:<module>:71 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-03-19 14:13:35.162 | INFO     | __main__:load_graph:232 - Loaded graph from data\processed\graph\heterogeneous_graph.pt
+2026-03-19 14:13:35.162 | INFO     | __main__:load_graph:233 -   Node types: ['epitope', 'protein', 'hla', 'tcr']
+2026-03-19 14:13:35.163 | INFO     | __main__:load_graph:234 -   Edge types: ["('protein', 'source_of', 'epitope')", "('epitope', 'binds_to', 'hla')", "('epitope', 'recognized_by', 'tcr')", "('epitope', 'similar_to', 'epitope')"]
+2026-03-19 14:13:35.227 | INFO     | __main__:make_splits:272 -   Train: 16,718 epitopes (1,574 pos / 15,144 neg)
+2026-03-19 14:13:35.228 | INFO     | __main__:make_splits:274 -   Val:   3,583 epitopes
+2026-03-19 14:13:35.229 | INFO     | __main__:make_splits:275 -   Test:  3,583 epitopes
+2026-03-19 14:13:35.320 | INFO     | __main__:main:631 -   Model parameters: 460,673
+2026-03-19 14:18:11.894 | INFO     | __main__:<module>:63 - Device: cuda
+2026-03-19 14:18:11.896 | INFO     | __main__:<module>:65 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-03-19 14:18:11.995 | INFO     | __main__:load_graph:205 - Loaded graph: ['epitope', 'protein', 'hla', 'tcr'], 4 edge types
+2026-03-19 14:18:12.058 | INFO     | __main__:make_splits:231 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 14:18:12.059 | INFO     | __main__:make_splits:232 -   Pos in train: 1,574 / 16,718
+2026-03-19 14:18:12.128 | INFO     | __main__:main:494 -   Parameters: 230,337
+2026-03-19 14:38:16.569 | INFO     | __main__:<module>:63 - Device: cuda
+2026-03-19 14:38:16.571 | INFO     | __main__:<module>:65 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-03-19 14:38:16.675 | INFO     | __main__:load_graph:230 - Loaded graph: ['epitope', 'protein', 'hla', 'tcr'], 4 edge types
+2026-03-19 14:38:16.793 | INFO     | __main__:probe_hanconv_output_dim:106 -   HANConv probe: in=128, heads=4 → out=128 (averaging=yes)
+2026-03-19 14:38:16.813 | INFO     | __main__:make_splits:259 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 14:38:16.813 | INFO     | __main__:make_splits:260 -   Positives in train: 1,574
+2026-03-19 14:38:16.837 | INFO     | __main__:main:516 -   Parameters: 427,905
+2026-03-19 14:38:18.436 | INFO     | __main__:train:358 -   Ep  10 | loss=1.1389 | auroc=0.7143 | auprc=0.2477 | f1=0.3191
+2026-03-19 14:38:19.473 | INFO     | __main__:train:358 -   Ep  20 | loss=1.0197 | auroc=0.7420 | auprc=0.3087 | f1=0.3751
+2026-03-19 14:38:20.538 | INFO     | __main__:train:358 -   Ep  30 | loss=0.9518 | auroc=0.7659 | auprc=0.3423 | f1=0.4060
+2026-03-19 14:38:21.566 | INFO     | __main__:train:358 -   Ep  40 | loss=0.9065 | auroc=0.7816 | auprc=0.3854 | f1=0.4159
+2026-03-19 14:38:22.595 | INFO     | __main__:train:358 -   Ep  50 | loss=0.8658 | auroc=0.7990 | auprc=0.4067 | f1=0.4161
+2026-03-19 14:38:23.621 | INFO     | __main__:train:358 -   Ep  60 | loss=0.8170 | auroc=0.8163 | auprc=0.4360 | f1=0.4418
+2026-03-19 14:38:24.644 | INFO     | __main__:train:358 -   Ep  70 | loss=0.7528 | auroc=0.8275 | auprc=0.4440 | f1=0.4570
+2026-03-19 14:38:25.660 | INFO     | __main__:train:358 -   Ep  80 | loss=0.7222 | auroc=0.8354 | auprc=0.4491 | f1=0.4167
+2026-03-19 14:38:26.675 | INFO     | __main__:train:358 -   Ep  90 | loss=0.7191 | auroc=0.8344 | auprc=0.4533 | f1=0.4327
+2026-03-19 14:38:27.692 | INFO     | __main__:train:358 -   Ep 100 | loss=0.6716 | auroc=0.8404 | auprc=0.4659 | f1=0.4830
+2026-03-19 14:38:28.701 | INFO     | __main__:train:358 -   Ep 110 | loss=0.6465 | auroc=0.8423 | auprc=0.4567 | f1=0.4271
+2026-03-19 14:38:29.722 | INFO     | __main__:train:358 -   Ep 120 | loss=0.6329 | auroc=0.8473 | auprc=0.4602 | f1=0.4935
+2026-03-19 14:38:30.737 | INFO     | __main__:train:358 -   Ep 130 | loss=0.6095 | auroc=0.8448 | auprc=0.4624 | f1=0.4548
+2026-03-19 14:38:31.753 | INFO     | __main__:train:358 -   Ep 140 | loss=0.5997 | auroc=0.8497 | auprc=0.4659 | f1=0.4889
+2026-03-19 14:38:32.767 | INFO     | __main__:train:358 -   Ep 150 | loss=0.5638 | auroc=0.8485 | auprc=0.4701 | f1=0.4352
+2026-03-19 14:38:33.476 | INFO     | __main__:train:364 -   Early stop at epoch 157, best AUROC=0.8528
+2026-03-19 14:38:33.480 | INFO     | __main__:train:368 -   Best: epoch 137, val AUROC=0.8528
+2026-03-19 14:38:33.493 | INFO     | __main__:main:520 -   Training time: 16.7s
+2026-03-19 14:38:34.743 | INFO     | __main__:plot_training_curves:418 -   Saved 08_training_curves.png
+2026-03-19 14:38:35.249 | INFO     | __main__:plot_roc_and_pr:447 -   Saved 09_roc_pr_curves.png

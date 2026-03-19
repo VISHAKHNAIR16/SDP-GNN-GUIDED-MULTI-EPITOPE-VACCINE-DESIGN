@@ -1,0 +1,14 @@
+epitope_seq,seq_length,mhc_class,gnn_score,tcr_evidence,hla_coverage_score,hla_neighbors,essential_gene,composite_score,true_label,source_gene,source_protein,rank,selected_class,selection_reason
+RLPAKAPLL,9,Class I (CD8+),0.709662675857544,1,1.0,3,0,0.754831337928772,1,inhA,Enoyl-[acyl-carrier-protein] reductase [NADH],3,Class I (CD8+),TCR-confirmed gold standard
+LAESIRPLV,9,Class I (CD8+),0.7934811115264893,0,1.0,3,0,0.5467405557632447,1,ald,Alanine dehydrogenase,9,Class I (CD8+),Top composite score
+GLFLTTEAV,9,Class I (CD8+),0.7841680645942688,0,1.0,3,0,0.5420840322971344,0,groL1,60 kDa chaperonin,11,Class I (CD8+),Top composite score
+YMPYPGTRI,9,Class I (CD8+),0.7834002375602722,0,1.0,3,0,0.5417001187801361,1,ald,Alanine dehydrogenase,13,Class I (CD8+),Top composite score
+WYYQSGLSI,9,Class I (CD8+),0.7821546196937561,0,1.0,3,0,0.5410773098468781,0,B8W66_22605,Transferase,14,Class I (CD8+),Top composite score
+MSQIMYNYPAMLGHA,15,Class II (CD4+),0.7420287132263184,1,1.0,3,0,0.7710143566131592,1,esxW,ESAT-6-like protein EsxW,1,Class II (CD4+),TCR-confirmed gold standard
+AAVVRFQEAANKQKQ,15,Class II (CD4+),0.7180758714675903,1,1.0,3,0,0.7590379357337952,1,esxW,ESAT-6-like protein EsxW,2,Class II (CD4+),TCR-confirmed gold standard
+PPQIAANRSQLISLV,15,Class II (CD4+),0.7092455625534058,1,1.0,3,0,0.7546227812767029,1,PPE68,PPE family immunomodulator PPE68,4,Class II (CD4+),TCR-confirmed gold standard
+LTDEQRAAALEKAAA,15,Class II (CD4+),0.6929935812950134,1,1.0,3,0,0.7464967906475067,1,mihF,Integration host factor,5,Class II (CD4+),TCR-confirmed gold standard
+TAAQAAVVRFQEAAN,15,Class II (CD4+),0.6871190071105957,1,1.0,3,0,0.7435595035552979,1,esxW,ESAT-6-like protein EsxW,6,Class II (CD4+),TCR-confirmed gold standard
+PSPSMGRDIKVQFQS,15,Class II (CD4+),0.638759434223175,1,1.0,3,0,0.7193797171115875,0,dagK,Diacylglycerol kinase,7,Class II (CD4+),TCR-confirmed gold standard
+MHVSFVMAYPEMLAA,15,Class II (CD4+),0.6030656695365906,1,1.0,3,0,0.7015328347682953,0,pecA,PE cleavage protein A,8,Class II (CD4+),TCR-confirmed gold standard
+YDQSGLSVVMPVGGQSSFYS,20,Class II (CD4+),0.7850614190101624,0,1.0,3,0,0.5425307095050812,1,,,10,Class II (CD4+),Top composite score

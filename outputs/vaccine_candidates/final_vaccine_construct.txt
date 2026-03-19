@@ -1,0 +1,72 @@
+======================================================================
+GNN-GUIDED MULTI-EPITOPE TB VACCINE CONSTRUCT
+======================================================================
+
+Total length:       226 amino acids
+Molecular weight:   23.24 kDa
+Isoelectric point:  8.59
+GRAVY score:        -0.0619
+Instability index:  80 (UNSTABLE)
+Aliphatic index:    137.7
+
+Population coverage (estimated):
+  Class I  (CD8+):  75.9%
+  Class II (CD4+):  85.0%
+  Combined:         96.4%
+
+======================================================================
+CONSTRUCT SEQUENCE
+======================================================================
+APPHALSRLPAKAPLLAAYLAESIRPLVAAYGLFLTTEAVAAYYMPYPGTRIAAYWYYQSGLSIKKMSQIMYNYPAMLGHAGPGPGAAVVRFQEAANKQKQGPGPGPPQIAANRSQLISLVGPGPGLTDEQRAAALEKAAAGPGPGTAAQAAVVRFQEAANGPGPGPSPSMGRDIKVQFQSGPGPGMHVSFVMAYPEMLAAGPGPGYDQSGLSVVMPVGGQSSFYS
+
+======================================================================
+CONSTRUCT COMPONENTS
+======================================================================
+
+[   1-   7] Adjuvant             APPHALS                        RS09 (TLR4 agonist)
+[   8-  16] Class I epitope      RLPAKAPLL                      RLPAKAPLL (inhA) [TCR]
+[  17-  19] Linker               AAY                            AAY linker
+[  20-  28] Class I epitope      LAESIRPLV                      LAESIRPLV (ald)
+[  29-  31] Linker               AAY                            AAY linker
+[  32-  40] Class I epitope      GLFLTTEAV                      GLFLTTEAV (groL1)
+[  41-  43] Linker               AAY                            AAY linker
+[  44-  52] Class I epitope      YMPYPGTRI                      YMPYPGTRI (ald)
+[  53-  55] Linker               AAY                            AAY linker
+[  56-  64] Class I epitope      WYYQSGLSI                      WYYQSGLSI (B8W66_22605)
+[  65-  66] Linker               KK                             KK bridge
+[  67-  81] Class II epitope     MSQIMYNYPAMLGHA                MSQIMYNYPAMLGHA (esxW) [TCR]
+[  82-  86] Linker               GPGPG                          GPGPG linker
+[  87- 101] Class II epitope     AAVVRFQEAANKQKQ                AAVVRFQEAANKQKQ (esxW) [TCR]
+[ 102- 106] Linker               GPGPG                          GPGPG linker
+[ 107- 121] Class II epitope     PPQIAANRSQLISLV                PPQIAANRSQLISLV (PPE68) [TCR]
+[ 122- 126] Linker               GPGPG                          GPGPG linker
+[ 127- 141] Class II epitope     LTDEQRAAALEKAAA                LTDEQRAAALEKAAA (mihF) [TCR]
+[ 142- 146] Linker               GPGPG                          GPGPG linker
+[ 147- 161] Class II epitope     TAAQAAVVRFQEAAN                TAAQAAVVRFQEAAN (esxW) [TCR]
+[ 162- 166] Linker               GPGPG                          GPGPG linker
+[ 167- 181] Class II epitope     PSPSMGRDIKVQFQS                PSPSMGRDIKVQFQS (dagK) [TCR]
+[ 182- 186] Linker               GPGPG                          GPGPG linker
+[ 187- 201] Class II epitope     MHVSFVMAYPEMLAA                MHVSFVMAYPEMLAA (pecA) [TCR]
+[ 202- 206] Linker               GPGPG                          GPGPG linker
+[ 207- 226] Class II epitope     YDQSGLSVVMPVGGQSSFYS           YDQSGLSVVMPVGGQSSFYS (nan)
+
+======================================================================
+SELECTED EPITOPES
+======================================================================
+
+Class I (CD8+) epitopes — MHC Class I binding, 8-11 aa:
+  1. RLPAKAPLL       gene=inhA            score=0.7548 [TCR-confirmed]
+  2. LAESIRPLV       gene=ald             score=0.5467
+  3. GLFLTTEAV       gene=groL1           score=0.5421
+  4. YMPYPGTRI       gene=ald             score=0.5417
+  5. WYYQSGLSI       gene=B8W66_22605     score=0.5411
+
+Class II (CD4+) epitopes — MHC Class II binding, 12-25 aa:
+  1. MSQIMYNYPAMLGHA           gene=esxW            score=0.7710 [TCR-confirmed]
+  2. AAVVRFQEAANKQKQ           gene=esxW            score=0.7590 [TCR-confirmed]
+  3. PPQIAANRSQLISLV           gene=PPE68           score=0.7546 [TCR-confirmed]
+  4. LTDEQRAAALEKAAA           gene=mihF            score=0.7465 [TCR-confirmed]
+  5. TAAQAAVVRFQEAAN           gene=esxW            score=0.7436 [TCR-confirmed]
+  6. PSPSMGRDIKVQFQS           gene=dagK            score=0.7194 [TCR-confirmed]
+  7. MHVSFVMAYPEMLAA           gene=pecA            score=0.7015 [TCR-confirmed]
+  8. YDQSGLSVVMPVGGQSSFYS      gene=nan             score=0.5425

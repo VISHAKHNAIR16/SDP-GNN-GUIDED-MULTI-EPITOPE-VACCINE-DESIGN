@@ -1,0 +1,44 @@
+2026-03-19 15:02:31.723 | INFO     | __main__:<module>:84 - Device: cuda
+2026-03-19 15:02:31.728 | INFO     | __main__:load_all_embeddings:159 - Loading embeddings...
+2026-03-19 15:02:31.814 | INFO     | __main__:load_all_embeddings:193 -   Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 15:02:31.835 | INFO     | __main__:build_improved_graph:374 - Building edges...
+2026-03-19 15:02:32.557 | INFO     | __main__:build_improved_graph:378 -   protein→epitope: 23,536
+2026-03-19 15:02:33.628 | INFO     | __main__:build_improved_graph:382 -   epitope→hla: 71,625
+2026-03-19 15:02:33.641 | INFO     | __main__:build_improved_graph:386 -   epitope→tcr: 57
+2026-03-19 15:02:33.641 | INFO     | __main__:build_similarity_edges:207 -   Building similarity edges (k=8, threshold=0.7)...
+2026-03-19 15:02:45.555 | INFO     | __main__:build_similarity_edges:226 -   Similarity edges: 191,002
+2026-03-19 15:02:45.582 | INFO     | __main__:build_hla_supertype_edges:238 -   Building HLA supertype edges...
+2026-03-19 15:02:45.626 | INFO     | __main__:build_hla_supertype_edges:273 -   HLA supertype edges: 4,302 across 9 supertypes
+2026-03-19 15:02:45.717 | INFO     | __main__:build_improved_graph:403 -   Graph v2 saved: data\processed\graph\heterogeneous_graph_v2.pt
+2026-03-19 15:02:45.721 | INFO     | __main__:build_improved_graph:407 -   Total edges: 290,522 (was 214,459 in v1)
+2026-03-19 15:02:45.899 | INFO     | __main__:make_splits:496 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 15:02:45.968 | INFO     | __main__:retrain_gnn:547 -   Parameters: 428,673
+2026-03-19 15:02:47.624 | INFO     | __main__:retrain_gnn:585 -   Ep  10 | loss=1.0999 | auroc=0.7136 | auprc=0.2545 | f1=0.3056
+2026-03-19 15:02:48.850 | INFO     | __main__:retrain_gnn:585 -   Ep  20 | loss=0.9961 | auroc=0.7509 | auprc=0.3120 | f1=0.3731
+2026-03-19 15:02:50.059 | INFO     | __main__:retrain_gnn:585 -   Ep  30 | loss=0.9306 | auroc=0.7703 | auprc=0.3412 | f1=0.3952
+2026-03-19 15:02:51.278 | INFO     | __main__:retrain_gnn:585 -   Ep  40 | loss=0.9018 | auroc=0.7860 | auprc=0.3842 | f1=0.3921
+2026-03-19 15:02:52.495 | INFO     | __main__:retrain_gnn:585 -   Ep  50 | loss=0.8364 | auroc=0.8030 | auprc=0.4025 | f1=0.4063
+2026-03-19 15:02:53.731 | INFO     | __main__:retrain_gnn:585 -   Ep  60 | loss=0.7904 | auroc=0.8135 | auprc=0.4196 | f1=0.4186
+2026-03-19 15:02:54.935 | INFO     | __main__:retrain_gnn:585 -   Ep  70 | loss=0.7611 | auroc=0.8209 | auprc=0.4198 | f1=0.4394
+2026-03-19 15:02:56.147 | INFO     | __main__:retrain_gnn:585 -   Ep  80 | loss=0.7300 | auroc=0.8287 | auprc=0.4326 | f1=0.4259
+2026-03-19 15:02:57.356 | INFO     | __main__:retrain_gnn:585 -   Ep  90 | loss=0.7215 | auroc=0.8345 | auprc=0.4406 | f1=0.4857
+2026-03-19 15:02:58.559 | INFO     | __main__:retrain_gnn:585 -   Ep 100 | loss=0.6846 | auroc=0.8378 | auprc=0.4339 | f1=0.4269
+2026-03-19 15:02:59.758 | INFO     | __main__:retrain_gnn:585 -   Ep 110 | loss=0.6605 | auroc=0.8395 | auprc=0.4442 | f1=0.4797
+2026-03-19 15:03:00.962 | INFO     | __main__:retrain_gnn:585 -   Ep 120 | loss=0.6410 | auroc=0.8423 | auprc=0.4409 | f1=0.4124
+2026-03-19 15:03:02.158 | INFO     | __main__:retrain_gnn:585 -   Ep 130 | loss=0.6108 | auroc=0.8403 | auprc=0.4435 | f1=0.4629
+2026-03-19 15:03:03.355 | INFO     | __main__:retrain_gnn:585 -   Ep 140 | loss=0.6268 | auroc=0.8404 | auprc=0.4399 | f1=0.3787
+2026-03-19 15:03:04.562 | INFO     | __main__:retrain_gnn:585 -   Ep 150 | loss=0.5912 | auroc=0.8464 | auprc=0.4503 | f1=0.4052
+2026-03-19 15:03:05.759 | INFO     | __main__:retrain_gnn:585 -   Ep 160 | loss=0.5825 | auroc=0.8429 | auprc=0.4440 | f1=0.4755
+2026-03-19 15:03:06.956 | INFO     | __main__:retrain_gnn:585 -   Ep 170 | loss=0.5693 | auroc=0.8449 | auprc=0.4486 | f1=0.4219
+2026-03-19 15:03:06.957 | INFO     | __main__:retrain_gnn:589 -   Early stop epoch 170, best AUROC=0.8464
+2026-03-19 15:03:06.962 | INFO     | __main__:retrain_gnn:593 -   Best: epoch 150, val AUROC=0.8464
+2026-03-19 15:03:10.119 | INFO     | __main__:build_deduplicated_candidates:691 -   Deduplication: 23,884 → 22,843 unique sequences
+2026-03-19 15:03:10.120 | INFO     | __main__:build_deduplicated_candidates:698 -   Final candidates (GNN > 0.5): 5,353
+2026-03-19 15:03:10.121 | INFO     | __main__:build_deduplicated_candidates:699 -   Class I  (CD8+): 569
+2026-03-19 15:03:10.121 | INFO     | __main__:build_deduplicated_candidates:700 -   Class II (CD4+): 4,784
+2026-03-19 15:03:10.121 | INFO     | __main__:build_deduplicated_candidates:701 -   With TCR evidence: 9
+2026-03-19 15:03:10.122 | INFO     | __main__:build_deduplicated_candidates:702 -   True positives in top 50: 38 / 50
+2026-03-19 15:03:10.166 | INFO     | __main__:main:890 -   Saved top_candidates_v2.csv, top25_classI_v2.csv, top25_classII_v2.csv
+2026-03-19 15:03:10.698 | INFO     | __main__:plot_training:737 -   Saved 13_v2_training_curves.png
+2026-03-19 15:03:11.018 | INFO     | __main__:plot_roc_pr:764 -   Saved 14_v2_roc_pr.png
+2026-03-19 15:03:11.495 | INFO     | __main__:plot_classI_classII:803 -   Saved 15_classI_classII_candidates.png

@@ -1,0 +1,15 @@
+rank,epitope_seq,seq_length,mhc_class,composite_score,gnn_score,tcr_evidence,hla_coverage_score,hla_neighbors,true_label,source_gene,source_protein
+1,RLPAKAPLL,9,Class I (CD8+),0.9918616414070129,0.9837233,1,1.0,3,1,inhA,Enoyl-[acyl-carrier-protein] reductase [NADH]
+2,RLPAKAPLL,9,Class I (CD8+),0.9918616414070129,0.9837233,1,1.0,3,0,inhA,Enoyl-[acyl-carrier-protein] reductase [NADH]
+3,MSQIMYNYPAMLGHA,15,Class II (CD4+),0.9839017391204834,0.9678035,1,1.0,3,1,esxW,ESAT-6-like protein EsxW
+4,LTDEQRAAALEKAAA,15,Class II (CD4+),0.9768920838832855,0.95378417,1,1.0,3,1,mihF,Integration host factor
+5,LTDEQRAAALEKAAA,15,Class II (CD4+),0.9768920838832855,0.95378417,1,1.0,3,0,mihF,Integration host factor
+6,AAVVRFQEAANKQKQ,15,Class II (CD4+),0.9740795493125916,0.9481591,1,1.0,3,1,esxW,ESAT-6-like protein EsxW
+7,AAVVRFQEAANKQKQ,15,Class II (CD4+),0.9728390872478485,0.9456782,1,1.0,3,0,esxW,ESAT-6-like protein EsxW
+8,PSPSMGRDIKVQFQS,15,Class II (CD4+),0.9652606248855591,0.93052125,1,1.0,3,0,dagK,Diacylglycerol kinase
+9,PSPSMGRDIKVQFQS,15,Class II (CD4+),0.9634811282157898,0.92696226,1,1.0,3,1,dagK,Diacylglycerol kinase
+10,TAAQAAVVRFQEAAN,15,Class II (CD4+),0.961564302444458,0.9231286,1,1.0,3,1,esxW,ESAT-6-like protein EsxW
+11,TAAQAAVVRFQEAAN,15,Class II (CD4+),0.9591602981090546,0.9183206,1,1.0,3,0,esxW,ESAT-6-like protein EsxW
+12,PPQIAANRSQLISLV,15,Class II (CD4+),0.9516259431838989,0.9032519,1,1.0,3,1,PPE68,PPE family immunomodulator PPE68
+13,MHVSFVMAYPEMLAA,15,Class II (CD4+),0.9466773271560669,0.89335465,1,1.0,3,1,pecA,PE cleavage protein A
+14,MHVSFVMAYPEMLAA,15,Class II (CD4+),0.9466773271560669,0.89335465,1,1.0,3,0,pecA,PE cleavage protein A

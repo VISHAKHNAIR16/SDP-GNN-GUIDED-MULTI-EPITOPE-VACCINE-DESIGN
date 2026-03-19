@@ -1,0 +1,28 @@
+2026-03-19 13:56:19.360 | INFO     | __main__:load_all_data:101 -   Epitopes: 23,884 nodes, embedding dim=320
+2026-03-19 13:56:19.398 | INFO     | __main__:load_all_data:112 -   TB proteins: 21,008 nodes, embedding dim=320
+2026-03-19 13:56:19.404 | INFO     | __main__:load_all_data:123 -   HLA alleles: 2,000 nodes, embedding dim=320
+2026-03-19 13:56:19.436 | INFO     | __main__:load_all_data:133 -   VDJdb: 61 TCR-epitope pairs, 57 unique CDR3s
+2026-03-19 13:56:19.438 | INFO     | __main__:load_all_data:168 -   TCR CDR3s: 57 nodes
+2026-03-19 13:56:19.441 | INFO     | __main__:build_hetero_graph:501 - Adding node features...
+2026-03-19 13:56:19.463 | INFO     | __main__:build_hetero_graph:527 -   epitope nodes: torch.Size([23884, 320])
+2026-03-19 13:56:19.463 | INFO     | __main__:build_hetero_graph:528 -   protein nodes: torch.Size([21008, 320])
+2026-03-19 13:56:19.464 | INFO     | __main__:build_hetero_graph:529 -   hla nodes:     torch.Size([2000, 320])
+2026-03-19 13:56:19.464 | INFO     | __main__:build_hetero_graph:530 -   tcr nodes:     torch.Size([57, 320])
+2026-03-19 13:56:19.464 | INFO     | __main__:build_hetero_graph:533 - Building edges...
+2026-03-19 13:56:19.464 | INFO     | __main__:build_protein_epitope_edges:187 - Building protein → epitope edges (source_of)
+2026-03-19 13:56:20.200 | INFO     | __main__:build_protein_epitope_edges:242 -   Matched 23,536 epitopes to source proteins
+2026-03-19 13:56:20.203 | INFO     | __main__:build_epitope_hla_edges:266 - Building epitope → HLA edges (binds_to)
+2026-03-19 13:56:20.240 | WARNING  | __main__:build_epitope_hla_edges:279 -   No MHC allele column in IEDB — building similarity-based HLA edges
+2026-03-19 13:56:21.260 | INFO     | __main__:build_epitope_tcr_edges:376 - Building epitope → TCR edges (recognized_by)
+2026-03-19 13:56:21.272 | INFO     | __main__:build_epitope_tcr_edges:405 -   Built 57 epitope→TCR edges (gold standard)
+2026-03-19 13:56:21.273 | INFO     | __main__:build_epitope_similarity_edges:430 - Building epitope similarity edges (k=5, threshold=0.85)
+2026-03-19 13:56:21.313 | INFO     | __main__:build_epitope_similarity_edges:442 -   Processing 23,884 epitopes in batches of 1000...
+2026-03-19 13:56:21.842 | INFO     | __main__:build_epitope_similarity_edges:463 -   Progress: 1,000/23,884 (4%) — 4,997 edges so far
+2026-03-19 13:56:24.478 | INFO     | __main__:build_epitope_similarity_edges:463 -   Progress: 6,000/23,884 (25%) — 29,953 edges so far
+2026-03-19 13:56:27.050 | INFO     | __main__:build_epitope_similarity_edges:463 -   Progress: 11,000/23,884 (46%) — 54,904 edges so far
+2026-03-19 13:56:29.655 | INFO     | __main__:build_epitope_similarity_edges:463 -   Progress: 16,000/23,884 (67%) — 79,868 edges so far
+2026-03-19 13:56:32.263 | INFO     | __main__:build_epitope_similarity_edges:463 -   Progress: 21,000/23,884 (88%) — 104,848 edges so far
+2026-03-19 13:56:33.746 | INFO     | __main__:build_epitope_similarity_edges:467 -   Built 119,241 epitope similarity edges
+2026-03-19 13:56:33.854 | INFO     | __main__:save_graph:568 -   Graph saved: data\processed\graph\heterogeneous_graph.pt (64.8 MB)
+2026-03-19 13:56:33.855 | INFO     | __main__:save_graph:573 -   Stats saved: data\processed\graph\graph_stats.json
+2026-03-19 13:56:33.864 | INFO     | __main__:main:647 - Total time: 14.5s

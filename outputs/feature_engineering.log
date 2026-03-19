@@ -1,0 +1,55 @@
+2026-03-19 12:04:20.679 | INFO     | __main__:load_esm_model:112 -   Device: cuda
+2026-03-19 12:04:20.681 | INFO     | __main__:load_esm_model:117 -   GPU: NVIDIA GeForce RTX 4050 Laptop GPU (6.4 GB VRAM)
+2026-03-19 12:04:20.682 | INFO     | __main__:load_esm_model:122 -   Loading esm2_t6_8M_UR50D...
+2026-03-19 12:04:28.768 | INFO     | __main__:load_esm_model:129 -   Model loaded in 8.1s
+2026-03-19 12:04:28.768 | INFO     | __main__:load_esm_model:130 -   Embedding dimension: 480
+2026-03-19 12:04:28.769 | INFO     | __main__:load_esm_model:134 -   Model parameters: 7,512,474
+2026-03-19 12:04:28.795 | INFO     | __main__:embed_iedb_epitopes:278 -   Loaded 2,249 positive epitopes
+2026-03-19 12:04:29.921 | INFO     | __main__:embed_iedb_epitopes:292 -   Completed in 1.1s (0.5ms/seq)
+2026-03-19 12:04:29.936 | INFO     | __main__:save_checkpoint:249 -   Saved epitopes_positive: shape=(2249, 320), size=2.9 MB
+2026-03-19 12:04:29.937 | INFO     | __main__:save_checkpoint:250 -   Metadata: epitopes_positive_meta.csv (2249 rows)
+2026-03-19 12:04:29.974 | INFO     | __main__:embed_iedb_epitopes:278 -   Loaded 21,635 negative epitopes
+2026-03-19 12:04:35.750 | INFO     | __main__:embed_iedb_epitopes:292 -   Completed in 5.4s (0.3ms/seq)
+2026-03-19 12:04:35.795 | INFO     | __main__:save_checkpoint:249 -   Saved epitopes_negative: shape=(21635, 320), size=27.7 MB
+2026-03-19 12:04:35.795 | INFO     | __main__:save_checkpoint:250 -   Metadata: epitopes_negative_meta.csv (21635 rows)
+2026-03-19 12:04:35.826 | INFO     | __main__:embed_tb_proteins:315 -   Loaded 21,008 TB proteins
+2026-03-19 12:04:35.827 | INFO     | __main__:embed_tb_proteins:316 -   Truncating sequences to 512 aa for memory efficiency
+2026-03-19 12:04:35.905 | INFO     | __main__:embed_tb_proteins:324 -   Parsed 21,008 sequences from FASTA
+2026-03-19 12:04:36.203 | INFO     | __main__:embed_tb_proteins:337 -   21,008 proteins ready for embedding
+2026-03-19 12:07:54.799 | INFO     | __main__:embed_tb_proteins:346 -   Completed in 198.6s (0.01s/seq)
+2026-03-19 12:07:54.855 | INFO     | __main__:save_checkpoint:249 -   Saved tb_proteins: shape=(21008, 320), size=26.9 MB
+2026-03-19 12:07:54.856 | INFO     | __main__:save_checkpoint:250 -   Metadata: tb_proteins_meta.csv (21008 rows)
+2026-03-19 12:07:55.153 | INFO     | __main__:embed_hla_sequences:376 -   Loaded 44,398 HLA sequences
+2026-03-19 12:07:55.212 | INFO     | __main__:embed_hla_sequences:400 -   HLA-A: 8,998 total → 405 sampled
+2026-03-19 12:07:55.213 | INFO     | __main__:embed_hla_sequences:400 -   HLA-B: 10,840 total → 488 sampled
+2026-03-19 12:07:55.214 | INFO     | __main__:embed_hla_sequences:400 -   HLA-C: 9,008 total → 406 sampled
+2026-03-19 12:07:55.214 | INFO     | __main__:embed_hla_sequences:400 -   HLA-E: 387 total → 17 sampled
+2026-03-19 12:07:55.214 | INFO     | __main__:embed_hla_sequences:400 -   HLA-F: 131 total → 6 sampled
+2026-03-19 12:07:55.214 | INFO     | __main__:embed_hla_sequences:400 -   HLA-G: 197 total → 9 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DRA: 129 total → 6 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DRB1: 3,883 total → 175 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DRB3: 653 total → 29 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DRB4: 323 total → 15 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DRB5: 253 total → 11 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DQA1: 984 total → 44 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DQA2: 42 total → 2 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DQB1: 2,989 total → 135 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DQB2: 40 total → 2 sampled
+2026-03-19 12:07:55.215 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DPA1: 885 total → 40 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DPB1: 3,044 total → 137 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DMA: 92 total → 4 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DMB: 142 total → 6 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DOA: 153 total → 7 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-DOB: 109 total → 5 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-HFE: 3 total → 1 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-OTHER: 298 total → 13 sampled
+2026-03-19 12:07:55.216 | INFO     | __main__:embed_hla_sequences:400 -   HLA-MICA: 411 total → 19 sampled
+2026-03-19 12:07:55.217 | INFO     | __main__:embed_hla_sequences:400 -   HLA-MICB: 279 total → 13 sampled
+2026-03-19 12:07:55.217 | INFO     | __main__:embed_hla_sequences:400 -   HLA-TAP1: 19 total → 1 sampled
+2026-03-19 12:07:55.217 | INFO     | __main__:embed_hla_sequences:400 -   HLA-TAP2: 106 total → 5 sampled
+2026-03-19 12:07:55.217 | INFO     | __main__:embed_hla_sequences:405 -   Final sample: 2000 HLA sequences
+2026-03-19 12:08:11.554 | INFO     | __main__:embed_hla_sequences:417 -   Completed in 16.3s
+2026-03-19 12:08:11.579 | INFO     | __main__:save_checkpoint:249 -   Saved hla_sample: shape=(2000, 320), size=2.6 MB
+2026-03-19 12:08:11.580 | INFO     | __main__:save_checkpoint:250 -   Metadata: hla_sample_meta.csv (2000 rows)
+2026-03-19 12:08:11.771 | INFO     | __main__:validate_embeddings:496 -   Cosine similarity (pos mean vs neg mean): 0.9991
+2026-03-19 12:08:11.771 | WARNING  | __main__:validate_embeddings:500 -   Embeddings are very similar — may indicate an issue

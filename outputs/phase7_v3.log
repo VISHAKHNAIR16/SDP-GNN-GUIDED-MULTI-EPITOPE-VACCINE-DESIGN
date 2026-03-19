@@ -1,0 +1,188 @@
+2026-03-19 15:28:40.891 | INFO     | __main__:<module>:84 - Device: cuda
+2026-03-19 15:28:40.895 | INFO     | __main__:load_embeddings_with_enhancements:302 - Loading embeddings with v3 enhancements...
+2026-03-19 15:28:40.932 | INFO     | __main__:build_position_features:203 -   Building position-specific AA features for 23,884 epitopes...
+2026-03-19 15:28:41.048 | INFO     | __main__:build_position_features:205 -   Position features shape: (23884, 500)
+2026-03-19 15:28:41.076 | INFO     | __main__:load_embeddings_with_enhancements:316 -   Epitope features: 320 (ESM-2) + 500 (position AA) = 820 total
+2026-03-19 15:28:41.499 | INFO     | __main__:build_protein_conservation_features:243 -   Essential gene proteins: 18 / 21,008
+2026-03-19 15:28:41.499 | INFO     | __main__:build_protein_conservation_features:244 -   Drug target proteins:    1 / 21,008
+2026-03-19 15:28:41.506 | INFO     | __main__:load_embeddings_with_enhancements:326 -   Protein features: 320 (ESM-2) + 4 (conservation) = 324 total
+2026-03-19 15:28:41.517 | INFO     | __main__:load_embeddings_with_enhancements:355 -   Unified feature dim: 820
+2026-03-19 15:28:41.517 | INFO     | __main__:load_embeddings_with_enhancements:356 -   Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 15:28:41.525 | INFO     | __main__:build_graph_v3:468 -   Node feature dim: 820
+2026-03-19 15:28:41.556 | INFO     | __main__:build_graph_v3:485 - Building edges...
+2026-03-19 15:28:42.373 | INFO     | __main__:build_graph_v3:488 -   protein→epitope:   23,536
+2026-03-19 15:28:43.412 | INFO     | __main__:build_graph_v3:492 -   epitope→hla:       71,625
+2026-03-19 15:28:43.423 | INFO     | __main__:build_graph_v3:496 -   epitope→tcr:       57
+2026-03-19 15:28:55.323 | INFO     | __main__:build_similarity_edges:384 -   Similarity edges: 191,002
+2026-03-19 15:28:55.392 | INFO     | __main__:build_hla_supertype_edges:407 -   HLA supertype edges: 4,266
+2026-03-19 15:28:55.393 | INFO     | __main__:build_graph_v3:506 -   Total edges: 290,486
+2026-03-19 15:28:55.755 | INFO     | __main__:main:935 -   Input dim: 820 | Hidden: 256 | Conv out: 256 | Layers: 4
+2026-03-19 15:28:55.832 | INFO     | __main__:main:945 -   Parameters: 3,585,217 (was 428,673 in v2)
+2026-03-19 15:28:55.849 | INFO     | __main__:make_splits:616 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 15:28:55.849 | INFO     | __main__:make_splits:617 -   Pos in train: 1,574 / 16,718
+2026-03-19 15:34:50.097 | INFO     | __main__:<module>:71 - Device: cuda
+2026-03-19 15:34:50.102 | INFO     | __main__:load_data:224 - Loading embeddings with v3 enhancements...
+2026-03-19 15:34:50.145 | INFO     | __main__:build_position_features:154 -   Building position-AA features for 23,884 epitopes...
+2026-03-19 15:34:50.248 | INFO     | __main__:build_position_features:156 -   Position feature shape: (23884, 500)
+2026-03-19 15:34:50.277 | INFO     | __main__:load_data:237 -   Epitope dim: 320 ESM + 500 pos = 820
+2026-03-19 15:34:50.641 | INFO     | __main__:build_conservation_features:181 -   Essential proteins: 18 | Drug targets: 0
+2026-03-19 15:34:50.649 | INFO     | __main__:load_data:244 -   Protein dim: 320 ESM + 4 cons = 324
+2026-03-19 15:34:50.655 | INFO     | __main__:load_data:249 -   HLA dim: 320
+2026-03-19 15:34:50.658 | INFO     | __main__:load_data:263 -   TCR dim: 21
+2026-03-19 15:34:50.659 | INFO     | __main__:load_data:265 -   Nodes — Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 15:34:50.701 | INFO     | __main__:build_graph:396 -   epitope feature dim: 820
+2026-03-19 15:34:50.702 | INFO     | __main__:build_graph:396 -   protein feature dim: 324
+2026-03-19 15:34:50.702 | INFO     | __main__:build_graph:396 -   hla feature dim: 320
+2026-03-19 15:34:50.702 | INFO     | __main__:build_graph:396 -   tcr feature dim: 21
+2026-03-19 15:34:50.703 | INFO     | __main__:build_graph:398 - Building edges...
+2026-03-19 15:34:51.562 | INFO     | __main__:build_graph:401 -   protein→epitope: 23,536
+2026-03-19 15:34:52.625 | INFO     | __main__:build_graph:405 -   epitope→hla:    71,625
+2026-03-19 15:34:52.638 | INFO     | __main__:build_graph:409 -   epitope→tcr:    57
+2026-03-19 15:35:09.538 | INFO     | __main__:sim_edges:294 -   Similarity edges: 191,002
+2026-03-19 15:35:09.606 | INFO     | __main__:hla_supertype_edges:315 -   HLA supertype edges: 4,266
+2026-03-19 15:35:09.607 | INFO     | __main__:build_graph:418 -   Total edges: 290,486
+2026-03-19 15:35:09.990 | INFO     | __main__:main:874 -   Node dims: {'epitope': 820, 'protein': 324, 'hla': 320, 'tcr': 21}
+2026-03-19 15:35:10.046 | INFO     | __main__:main:879 -   HANConv output dim: 256
+2026-03-19 15:35:10.088 | INFO     | __main__:main:892 -   Parameters: 1,755,585
+2026-03-19 15:35:10.097 | INFO     | __main__:make_splits:546 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 15:35:10.097 | INFO     | __main__:make_splits:547 -   Positives in train: 1,574
+2026-03-19 15:35:13.599 | INFO     | __main__:run_training:642 -   Ep  10 | loss=0.0506 | auroc=0.5634 | auprc=0.1277 | f1=0.0000
+2026-03-19 15:35:16.584 | INFO     | __main__:run_training:642 -   Ep  20 | loss=0.0357 | auroc=0.6037 | auprc=0.1524 | f1=0.0000
+2026-03-19 15:35:19.562 | INFO     | __main__:run_training:642 -   Ep  30 | loss=0.0334 | auroc=0.6490 | auprc=0.1942 | f1=0.0000
+2026-03-19 15:35:22.580 | INFO     | __main__:run_training:642 -   Ep  40 | loss=0.0321 | auroc=0.6594 | auprc=0.2242 | f1=0.0000
+2026-03-19 15:35:25.705 | INFO     | __main__:run_training:642 -   Ep  50 | loss=0.0315 | auroc=0.6833 | auprc=0.2365 | f1=0.0000
+2026-03-19 15:35:29.823 | INFO     | __main__:run_training:642 -   Ep  60 | loss=0.0309 | auroc=0.6960 | auprc=0.2436 | f1=0.0000
+2026-03-19 15:35:32.975 | INFO     | __main__:run_training:642 -   Ep  70 | loss=0.0304 | auroc=0.7038 | auprc=0.2554 | f1=0.0000
+2026-03-19 15:35:35.999 | INFO     | __main__:run_training:642 -   Ep  80 | loss=0.0291 | auroc=0.7119 | auprc=0.2711 | f1=0.0000
+2026-03-19 15:35:38.982 | INFO     | __main__:run_training:642 -   Ep  90 | loss=0.0286 | auroc=0.7215 | auprc=0.2780 | f1=0.0000
+2026-03-19 15:35:41.972 | INFO     | __main__:run_training:642 -   Ep 100 | loss=0.0282 | auroc=0.7317 | auprc=0.2861 | f1=0.0000
+2026-03-19 15:35:44.958 | INFO     | __main__:run_training:642 -   Ep 110 | loss=0.0278 | auroc=0.7425 | auprc=0.3037 | f1=0.0000
+2026-03-19 15:35:47.954 | INFO     | __main__:run_training:642 -   Ep 120 | loss=0.0272 | auroc=0.7524 | auprc=0.3186 | f1=0.0000
+2026-03-19 15:35:50.933 | INFO     | __main__:run_training:642 -   Ep 130 | loss=0.0266 | auroc=0.7596 | auprc=0.3253 | f1=0.0000
+2026-03-19 15:35:53.922 | INFO     | __main__:run_training:642 -   Ep 140 | loss=0.0263 | auroc=0.7651 | auprc=0.3343 | f1=0.0000
+2026-03-19 15:35:56.907 | INFO     | __main__:run_training:642 -   Ep 150 | loss=0.0260 | auroc=0.7693 | auprc=0.3395 | f1=0.0000
+2026-03-19 15:35:59.894 | INFO     | __main__:run_training:642 -   Ep 160 | loss=0.0260 | auroc=0.7725 | auprc=0.3441 | f1=0.0000
+2026-03-19 15:36:02.901 | INFO     | __main__:run_training:642 -   Ep 170 | loss=0.0258 | auroc=0.7759 | auprc=0.3494 | f1=0.0000
+2026-03-19 15:36:05.883 | INFO     | __main__:run_training:642 -   Ep 180 | loss=0.0255 | auroc=0.7787 | auprc=0.3537 | f1=0.0000
+2026-03-19 15:36:08.870 | INFO     | __main__:run_training:642 -   Ep 190 | loss=0.0254 | auroc=0.7811 | auprc=0.3558 | f1=0.0000
+2026-03-19 15:36:11.859 | INFO     | __main__:run_training:642 -   Ep 200 | loss=0.0254 | auroc=0.7829 | auprc=0.3579 | f1=0.0000
+2026-03-19 15:36:14.838 | INFO     | __main__:run_training:642 -   Ep 210 | loss=0.0252 | auroc=0.7846 | auprc=0.3594 | f1=0.0000
+2026-03-19 15:36:17.843 | INFO     | __main__:run_training:642 -   Ep 220 | loss=0.0249 | auroc=0.7861 | auprc=0.3609 | f1=0.0000
+2026-03-19 15:36:20.840 | INFO     | __main__:run_training:642 -   Ep 230 | loss=0.0252 | auroc=0.7872 | auprc=0.3617 | f1=0.0000
+2026-03-19 15:36:23.817 | INFO     | __main__:run_training:642 -   Ep 240 | loss=0.0252 | auroc=0.7880 | auprc=0.3632 | f1=0.0000
+2026-03-19 15:36:26.797 | INFO     | __main__:run_training:642 -   Ep 250 | loss=0.0251 | auroc=0.7889 | auprc=0.3640 | f1=0.0000
+2026-03-19 15:36:26.801 | INFO     | __main__:run_training:651 -   Best: epoch 250, val AUROC=0.7889
+2026-03-19 15:36:26.823 | INFO     | __main__:main:897 -   Training time: 96.7s
+2026-03-19 15:36:27.007 | INFO     | __main__:main:903 -   Test AUROC:  0.8494
+2026-03-19 15:36:27.008 | INFO     | __main__:main:904 -   Test AUPRC:  0.4273
+2026-03-19 15:36:27.008 | INFO     | __main__:main:905 -   Test F1:     0.0000
+2026-03-19 15:36:27.008 | INFO     | __main__:main:906 -   Test Recall: 0.0000
+2026-03-19 15:36:30.196 | INFO     | __main__:rank_candidates:736 -   Dedup: 23,884 → 22,843 unique sequences
+2026-03-19 15:36:30.198 | INFO     | __main__:rank_candidates:743 -   Candidates: 0 | Class I: 0 | Class II: 0
+2026-03-19 15:36:30.198 | INFO     | __main__:rank_candidates:744 -   TCR-confirmed: 0
+2026-03-19 15:36:30.198 | INFO     | __main__:rank_candidates:745 -   Essential gene: 0
+2026-03-19 15:36:30.199 | INFO     | __main__:rank_candidates:746 -   True pos in top 50: 0 / 50
+2026-03-19 15:36:30.220 | INFO     | __main__:main:916 -   Saved v3 CSVs
+2026-03-19 15:36:30.721 | INFO     | __main__:save_plots:778 -   Saved 16_v3_training.png
+2026-03-19 15:36:31.166 | INFO     | __main__:save_plots:801 -   Saved 17_v3_roc_pr.png
+2026-03-19 15:36:31.183 | INFO     | __main__:main:920 -   Total time: 101.1s
+2026-03-19 15:45:10.820 | INFO     | __main__:<module>:79 - Device: cuda
+2026-03-19 15:45:10.825 | INFO     | __main__:load_data:205 - Loading embeddings with v3 enhancements...
+2026-03-19 15:45:10.868 | INFO     | __main__:build_position_features:156 -   Building position-AA features for 23,884 epitopes...
+2026-03-19 15:45:10.984 | INFO     | __main__:load_data:217 -   Epitope dim: 320 ESM + 500 pos = 820
+2026-03-19 15:45:11.318 | INFO     | __main__:build_conservation_features:171 -   Essential proteins: 18 | Drug targets: 0
+2026-03-19 15:45:11.324 | INFO     | __main__:load_data:223 -   Protein dim: 320 ESM + 4 cons = 324
+2026-03-19 15:45:11.330 | INFO     | __main__:load_data:227 -   HLA dim: 320
+2026-03-19 15:45:11.334 | INFO     | __main__:load_data:240 -   TCR dim: 21
+2026-03-19 15:45:11.335 | INFO     | __main__:load_data:241 -   Nodes — Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 15:45:11.369 | INFO     | __main__:build_graph:366 -   epitope feature dim: 820
+2026-03-19 15:45:11.369 | INFO     | __main__:build_graph:366 -   protein feature dim: 324
+2026-03-19 15:45:11.369 | INFO     | __main__:build_graph:366 -   hla feature dim: 320
+2026-03-19 15:45:11.370 | INFO     | __main__:build_graph:366 -   tcr feature dim: 21
+2026-03-19 15:45:11.370 | INFO     | __main__:build_graph:368 - Building edges...
+2026-03-19 15:45:12.084 | INFO     | __main__:build_graph:371 -   protein→epitope: 23,536
+2026-03-19 15:45:13.073 | INFO     | __main__:build_graph:374 -   epitope→hla:    71,625
+2026-03-19 15:45:13.085 | INFO     | __main__:build_graph:377 -   epitope→tcr:    57
+2026-03-19 15:46:00.329 | INFO     | __main__:sim_edges:269 -   Similarity edges: 191,002
+2026-03-19 15:46:00.615 | INFO     | __main__:hla_supertype_edges:290 -   HLA supertype edges: 4,266
+2026-03-19 15:46:00.618 | INFO     | __main__:build_graph:384 -   Total edges: 290,486
+2026-03-19 15:46:01.358 | INFO     | __main__:main:778 -   Node dims: {'epitope': 820, 'protein': 324, 'hla': 320, 'tcr': 21}
+2026-03-19 15:46:01.610 | INFO     | __main__:main:790 -   Parameters: 1,755,585 | Conv out: 256
+2026-03-19 15:46:01.636 | INFO     | __main__:make_splits:486 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 15:46:01.637 | INFO     | __main__:make_splits:487 -   Positives in train: 1,574
+2026-03-19 15:46:06.360 | INFO     | __main__:run_training:574 -   Ep  10 | loss=0.0388 | auroc=0.6887 | auprc=0.2446 | f1=0.0000
+2026-03-19 15:46:10.036 | INFO     | __main__:run_training:574 -   Ep  20 | loss=0.0357 | auroc=0.7224 | auprc=0.2430 | f1=0.3170
+2026-03-19 15:46:13.902 | INFO     | __main__:run_training:574 -   Ep  30 | loss=0.0326 | auroc=0.7640 | auprc=0.3148 | f1=0.4060
+2026-03-19 15:46:17.594 | INFO     | __main__:run_training:574 -   Ep  40 | loss=0.0298 | auroc=0.8004 | auprc=0.3519 | f1=0.4493
+2026-03-19 15:46:21.391 | INFO     | __main__:run_training:574 -   Ep  50 | loss=0.0268 | auroc=0.8323 | auprc=0.4230 | f1=0.5101
+2026-03-19 15:46:25.130 | INFO     | __main__:run_training:574 -   Ep  60 | loss=0.0251 | auroc=0.8406 | auprc=0.4506 | f1=0.5443
+2026-03-19 15:46:28.851 | INFO     | __main__:run_training:574 -   Ep  70 | loss=0.0233 | auroc=0.8492 | auprc=0.4586 | f1=0.5503
+2026-03-19 15:46:32.581 | INFO     | __main__:run_training:574 -   Ep  80 | loss=0.0209 | auroc=0.8477 | auprc=0.4575 | f1=0.5688
+2026-03-19 15:46:36.007 | INFO     | __main__:run_training:574 -   Ep  90 | loss=0.0198 | auroc=0.8480 | auprc=0.4531 | f1=0.5570
+2026-03-19 15:46:39.728 | INFO     | __main__:run_training:574 -   Ep 100 | loss=0.0191 | auroc=0.8541 | auprc=0.4578 | f1=0.5642
+2026-03-19 15:46:43.651 | INFO     | __main__:run_training:574 -   Ep 110 | loss=0.0181 | auroc=0.8529 | auprc=0.4594 | f1=0.5604
+2026-03-19 15:46:47.195 | INFO     | __main__:run_training:574 -   Ep 120 | loss=0.0172 | auroc=0.8506 | auprc=0.4578 | f1=0.5624
+2026-03-19 15:46:48.975 | INFO     | __main__:run_training:579 -   Early stop epoch 125, best AUROC=0.8541
+2026-03-19 15:46:48.999 | INFO     | __main__:run_training:583 -   Best: epoch 100, val AUROC=0.8541
+2026-03-19 15:46:49.294 | INFO     | __main__:main:799 -   Test AUROC:  0.8871
+2026-03-19 15:46:49.295 | INFO     | __main__:main:800 -   Test AUPRC:  0.5005
+2026-03-19 15:46:49.296 | INFO     | __main__:main:801 -   Test F1:     0.5637
+2026-03-19 15:46:49.296 | INFO     | __main__:main:802 -   Test Recall: 0.6825
+2026-03-19 15:46:58.380 | INFO     | __main__:rank_candidates:650 -   Dedup: 23,884 → 22,843 unique sequences
+2026-03-19 15:46:58.381 | INFO     | __main__:rank_candidates:657 -   Candidates: 2,446 | Class I: 567 | Class II: 1,879
+2026-03-19 15:46:58.382 | INFO     | __main__:rank_candidates:658 -   TCR-confirmed: 8
+2026-03-19 15:46:58.382 | INFO     | __main__:rank_candidates:659 -   Essential gene: 1
+2026-03-19 15:46:58.383 | INFO     | __main__:rank_candidates:660 -   True pos in top 50: 43 / 50
+2026-03-19 15:46:58.405 | INFO     | __main__:main:812 -   Saved v3 CSVs
+2026-03-19 15:46:58.959 | INFO     | __main__:save_plots:691 -   Saved 16_v3_training.png
+2026-03-19 15:46:59.284 | INFO     | __main__:save_plots:712 -   Saved 17_v3_roc_pr.png
+2026-03-19 15:46:59.306 | INFO     | __main__:main:816 -   Total time: 108.5s
+2026-03-19 16:06:49.189 | INFO     | __main__:<module>:79 - Device: cuda
+2026-03-19 16:06:49.197 | INFO     | __main__:load_data:205 - Loading embeddings with v3 enhancements...
+2026-03-19 16:06:49.253 | INFO     | __main__:build_position_features:156 -   Building position-AA features for 23,884 epitopes...
+2026-03-19 16:06:49.684 | INFO     | __main__:load_data:217 -   Epitope dim: 320 ESM + 500 pos = 820
+2026-03-19 16:06:51.599 | INFO     | __main__:build_conservation_features:171 -   Essential proteins: 18 | Drug targets: 0
+2026-03-19 16:06:51.609 | INFO     | __main__:load_data:223 -   Protein dim: 320 ESM + 4 cons = 324
+2026-03-19 16:06:51.622 | INFO     | __main__:load_data:227 -   HLA dim: 320
+2026-03-19 16:06:51.637 | INFO     | __main__:load_data:240 -   TCR dim: 21
+2026-03-19 16:06:51.640 | INFO     | __main__:load_data:241 -   Nodes — Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 16:06:51.717 | INFO     | __main__:build_graph:366 -   epitope feature dim: 820
+2026-03-19 16:06:51.717 | INFO     | __main__:build_graph:366 -   protein feature dim: 324
+2026-03-19 16:06:51.718 | INFO     | __main__:build_graph:366 -   hla feature dim: 320
+2026-03-19 16:06:51.718 | INFO     | __main__:build_graph:366 -   tcr feature dim: 21
+2026-03-19 16:06:51.719 | INFO     | __main__:build_graph:368 - Building edges...
+2026-03-19 16:06:55.293 | INFO     | __main__:build_graph:371 -   protein→epitope: 23,536
+2026-03-19 16:07:00.172 | INFO     | __main__:build_graph:374 -   epitope→hla:    71,625
+2026-03-19 16:07:00.215 | INFO     | __main__:build_graph:377 -   epitope→tcr:    57
+2026-03-19 16:07:54.213 | INFO     | __main__:sim_edges:269 -   Similarity edges: 191,002
+2026-03-19 16:07:54.458 | INFO     | __main__:hla_supertype_edges:290 -   HLA supertype edges: 4,266
+2026-03-19 16:07:54.461 | INFO     | __main__:build_graph:384 -   Total edges: 290,486
+2026-03-19 16:07:55.241 | INFO     | __main__:main:778 -   Node dims: {'epitope': 820, 'protein': 324, 'hla': 320, 'tcr': 21}
+2026-03-19 16:07:55.502 | INFO     | __main__:main:790 -   Parameters: 1,755,585 | Conv out: 256
+2026-03-19 16:07:55.524 | INFO     | __main__:make_splits:486 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 16:07:55.524 | INFO     | __main__:make_splits:487 -   Positives in train: 1,574
+2026-03-19 16:08:00.264 | INFO     | __main__:run_training:574 -   Ep  10 | loss=0.0372 | auroc=0.7198 | auprc=0.2661 | f1=0.2023
+2026-03-19 16:08:03.939 | INFO     | __main__:run_training:574 -   Ep  20 | loss=0.0332 | auroc=0.7651 | auprc=0.2931 | f1=0.3952
+2026-03-19 16:08:07.477 | INFO     | __main__:run_training:574 -   Ep  30 | loss=0.0298 | auroc=0.8008 | auprc=0.3782 | f1=0.4716
+2026-03-19 16:08:11.308 | INFO     | __main__:run_training:574 -   Ep  40 | loss=0.0261 | auroc=0.8253 | auprc=0.4396 | f1=0.5455
+2026-03-19 16:08:15.057 | INFO     | __main__:run_training:574 -   Ep  50 | loss=0.0242 | auroc=0.8343 | auprc=0.4529 | f1=0.5664
+2026-03-19 16:08:18.848 | INFO     | __main__:run_training:574 -   Ep  60 | loss=0.0220 | auroc=0.8412 | auprc=0.4435 | f1=0.5570
+2026-03-19 16:08:22.346 | INFO     | __main__:run_training:574 -   Ep  70 | loss=0.0198 | auroc=0.8409 | auprc=0.4478 | f1=0.5541
+2026-03-19 16:08:26.215 | INFO     | __main__:run_training:574 -   Ep  80 | loss=0.0184 | auroc=0.8386 | auprc=0.4314 | f1=0.5346
+2026-03-19 16:08:29.500 | INFO     | __main__:run_training:574 -   Ep  90 | loss=0.0161 | auroc=0.8378 | auprc=0.4428 | f1=0.5303
+2026-03-19 16:08:32.688 | INFO     | __main__:run_training:574 -   Ep 100 | loss=0.0160 | auroc=0.8405 | auprc=0.4400 | f1=0.5365
+2026-03-19 16:08:32.689 | INFO     | __main__:run_training:579 -   Early stop epoch 100, best AUROC=0.8454
+2026-03-19 16:08:32.742 | INFO     | __main__:run_training:583 -   Best: epoch 75, val AUROC=0.8454
+2026-03-19 16:08:33.098 | INFO     | __main__:main:799 -   Test AUROC:  0.8839
+2026-03-19 16:08:33.099 | INFO     | __main__:main:800 -   Test AUPRC:  0.4899
+2026-03-19 16:08:33.099 | INFO     | __main__:main:801 -   Test F1:     0.5651
+2026-03-19 16:08:33.101 | INFO     | __main__:main:802 -   Test Recall: 0.7151
+2026-03-19 16:08:45.855 | INFO     | __main__:rank_candidates:650 -   Dedup: 23,884 → 22,843 unique sequences
+2026-03-19 16:08:45.860 | INFO     | __main__:rank_candidates:657 -   Candidates: 2,656 | Class I: 565 | Class II: 2,091
+2026-03-19 16:08:45.865 | INFO     | __main__:rank_candidates:658 -   TCR-confirmed: 8
+2026-03-19 16:08:45.866 | INFO     | __main__:rank_candidates:659 -   Essential gene: 0
+2026-03-19 16:08:45.869 | INFO     | __main__:rank_candidates:660 -   True pos in top 50: 38 / 50
+2026-03-19 16:08:45.953 | INFO     | __main__:main:812 -   Saved v3 CSVs
+2026-03-19 16:08:47.487 | INFO     | __main__:save_plots:691 -   Saved 16_v3_training.png
+2026-03-19 16:08:48.780 | INFO     | __main__:save_plots:712 -   Saved 17_v3_roc_pr.png
+2026-03-19 16:08:49.045 | INFO     | __main__:main:816 -   Total time: 119.8s

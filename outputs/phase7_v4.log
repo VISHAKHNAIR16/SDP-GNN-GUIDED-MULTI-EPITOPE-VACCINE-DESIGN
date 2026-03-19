@@ -1,0 +1,46 @@
+2026-03-19 16:01:19.539 | INFO     | __main__:<module>:82 - Device: cuda
+2026-03-19 16:01:19.545 | INFO     | __main__:load_data:239 - Loading embeddings (v4 — all enhancements)...
+2026-03-19 16:01:19.589 | INFO     | __main__:build_position_features:167 -   Building position-AA features for 23,884 epitopes...
+2026-03-19 16:01:19.711 | INFO     | __main__:load_data:251 -   Epitope dim: 320 ESM + 500 pos = 820
+2026-03-19 16:01:20.053 | INFO     | __main__:build_conservation_features:181 -   Essential proteins: 18 | Drug targets: 0
+2026-03-19 16:01:20.060 | INFO     | __main__:load_data:257 -   Protein dim: 320 ESM + 4 = 324
+2026-03-19 16:01:20.073 | INFO     | __main__:load_data:274 -   HLA dim: 320 | TCR dim: 21
+2026-03-19 16:01:20.074 | INFO     | __main__:load_data:275 -   Nodes — Epitopes: 23,884 | Proteins: 21,008 | HLA: 2,000 | TCR: 57
+2026-03-19 16:01:20.107 | INFO     | __main__:build_graph:394 -   epitope dim: 820
+2026-03-19 16:01:20.107 | INFO     | __main__:build_graph:394 -   protein dim: 324
+2026-03-19 16:01:20.108 | INFO     | __main__:build_graph:394 -   hla dim: 320
+2026-03-19 16:01:20.108 | INFO     | __main__:build_graph:394 -   tcr dim: 21
+2026-03-19 16:01:20.108 | INFO     | __main__:build_graph:396 - Building edges...
+2026-03-19 16:01:20.846 | INFO     | __main__:build_graph:399 -   protein→epitope: 23,536
+2026-03-19 16:01:21.866 | INFO     | __main__:build_graph:402 -   epitope→hla:    71,625
+2026-03-19 16:01:21.876 | INFO     | __main__:build_graph:405 -   epitope→tcr:    57
+2026-03-19 16:02:11.382 | INFO     | __main__:sim_edges:303 -   Similarity edges: 191,002
+2026-03-19 16:02:11.683 | INFO     | __main__:hla_supertype_edges:323 -   HLA supertype edges: 4,266
+2026-03-19 16:02:11.687 | INFO     | __main__:build_graph:412 -   Total edges: 290,486
+2026-03-19 16:02:12.479 | INFO     | __main__:main:814 -   Node dims: {'epitope': 820, 'protein': 324, 'hla': 320, 'tcr': 21}
+2026-03-19 16:02:12.736 | INFO     | __main__:main:826 -   Parameters: 1,755,585 | Conv out dim: 256
+2026-03-19 16:02:12.758 | INFO     | __main__:make_splits:511 -   Train 16,718 | Val 3,583 | Test 3,583
+2026-03-19 16:02:12.759 | INFO     | __main__:make_splits:512 -   Positives in train: 1,574
+2026-03-19 16:02:18.090 | INFO     | __main__:run_training:605 -   Ep  10 | loss=0.4698 | auroc=0.7418 | auprc=0.2609 | f1=0.3388 | rec=0.5503
+2026-03-19 16:02:21.948 | INFO     | __main__:run_training:605 -   Ep  20 | loss=0.3841 | auroc=0.7937 | auprc=0.3884 | f1=0.4718 | rec=0.5444
+2026-03-19 16:02:25.714 | INFO     | __main__:run_training:605 -   Ep  30 | loss=0.3347 | auroc=0.8285 | auprc=0.4545 | f1=0.5293 | rec=0.6420
+2026-03-19 16:02:29.564 | INFO     | __main__:run_training:605 -   Ep  40 | loss=0.3040 | auroc=0.8397 | auprc=0.4603 | f1=0.5533 | rec=0.6065
+2026-03-19 16:02:33.893 | INFO     | __main__:run_training:605 -   Ep  50 | loss=0.2644 | auroc=0.8464 | auprc=0.4577 | f1=0.5585 | rec=0.6568
+2026-03-19 16:02:39.069 | INFO     | __main__:run_training:605 -   Ep  60 | loss=0.2331 | auroc=0.8470 | auprc=0.4502 | f1=0.5473 | rec=0.6331
+2026-03-19 16:02:43.626 | INFO     | __main__:run_training:605 -   Ep  70 | loss=0.2058 | auroc=0.8442 | auprc=0.4568 | f1=0.5315 | rec=0.6864
+2026-03-19 16:02:48.588 | INFO     | __main__:run_training:605 -   Ep  80 | loss=0.1849 | auroc=0.8328 | auprc=0.4387 | f1=0.5367 | rec=0.6598
+2026-03-19 16:02:51.428 | INFO     | __main__:run_training:610 -   Early stop epoch 87, best AUROC=0.8489
+2026-03-19 16:02:51.452 | INFO     | __main__:run_training:614 -   Best: epoch 62, val AUROC=0.8489
+2026-03-19 16:02:51.860 | INFO     | __main__:main:836 -   Test AUROC:  0.8806
+2026-03-19 16:02:51.861 | INFO     | __main__:main:837 -   Test AUPRC:  0.5231
+2026-03-19 16:02:51.861 | INFO     | __main__:main:838 -   Test F1:     0.5537
+2026-03-19 16:02:51.862 | INFO     | __main__:main:839 -   Test Recall: 0.7270
+2026-03-19 16:03:04.902 | INFO     | __main__:rank_candidates:681 -   Dedup: 23,884 → 22,843 unique sequences
+2026-03-19 16:03:04.905 | INFO     | __main__:rank_candidates:688 -   Candidates: 2,863 | Class I: 570 | Class II: 2,293
+2026-03-19 16:03:04.906 | INFO     | __main__:rank_candidates:689 -   TCR-confirmed: 8
+2026-03-19 16:03:04.914 | INFO     | __main__:rank_candidates:690 -   Essential gene: 2
+2026-03-19 16:03:04.916 | INFO     | __main__:rank_candidates:691 -   True pos in top 50: 39 / 50
+2026-03-19 16:03:05.020 | INFO     | __main__:main:849 -   Saved v4 CSVs
+2026-03-19 16:03:07.114 | INFO     | __main__:save_plots:723 -   Saved 20_v4_training.png
+2026-03-19 16:03:08.383 | INFO     | __main__:save_plots:745 -   Saved 21_v4_roc_pr.png
+2026-03-19 16:03:08.502 | INFO     | __main__:main:853 -   Total time: 109.0s
