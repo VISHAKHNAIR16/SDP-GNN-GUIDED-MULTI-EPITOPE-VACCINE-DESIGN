@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GNN-Guided TB Vaccine Design</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+:root{--bg:#0a0f1e;--surface:#111827;--surface2:#1a2438;--border:#1e3a5f;--accent:#00d4ff;--accent2:#00ff9d;--accent3:#ff6b6b;--accent4:#ffd93d;--text:#e2e8f0;--muted:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,30,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;}
+.nav-logo{padding:0 20px;border-right:1px solid var(--border);height:54px;display:flex;align-items:center;gap:10px;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite;}
+.nav-logo span{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;letter-spacing:1px;}
+.nav-tabs{display:flex;flex:1;overflow-x:auto;}
+.nav-tab{padding:0 18px;height:54px;display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'IBM Plex Sans',sans-serif;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-tab .num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+.page{display:none;padding-top:74px;min-height:100vh;}
+.page.active{display:block;}
+.container{max-width:1080px;margin:0 auto;padding:32px 28px;}
+
+/* HERO */
+.hero{max-width:1080px;margin:0 auto;padding:60px 28px 40px;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--surface);padding:6px 14px;border-radius:20px;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--accent);margin-bottom:28px;}
+.hero h1{font-size:clamp(30px,5vw,56px);font-weight:700;line-height:1.1;margin-bottom:20px;}
+.hl{color:var(--accent);}.hl2{color:var(--accent2);}
+.hero-sub{font-size:17px;color:var(--muted);max-width:580px;line-height:1.7;margin-bottom:40px;}
+.stats-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:40px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;min-width:130px;}
+.stat-num{font-size:28px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--accent);}
+.stat-num.g{color:var(--accent2);}.stat-num.y{color:var(--accent4);}.stat-num.r{color:var(--accent3);}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;font-family:'IBM Plex Sans',sans-serif;}
+.btn-p{background:var(--accent);color:var(--bg);}
+.btn-p:hover{box-shadow:0 0 20px rgba(0,212,255,0.4);transform:translateY(-1px);}
+.btn-g{background:transparent;border:1px solid var(--border);color:var(--text);}
+.btn-g:hover{border-color:var(--accent);color:var(--accent);}
+
+/* SHARED */
+.sh{margin-bottom:28px;}
+.sh-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.sh-title{font-size:26px;font-weight:700;}
+.sh-sub{color:var(--muted);margin-top:6px;font-size:14px;line-height:1.6;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;}
+.card-title{font-size:14px;font-weight:600;margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.mt16{margin-top:16px;}.mt24{margin-top:24px;}.mt32{margin-top:32px;}
+
+/* BIOLOGY */
+.eg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:640px){.eg{grid-template-columns:1fr;}}
+.ec{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden;}
+.ec::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.ec.b::before{background:var(--accent);}.ec.g::before{background:var(--accent2);}.ec.r::before{background:var(--accent3);}.ec.y::before{background:var(--accent4);}
+.ec-icon{font-size:26px;margin-bottom:10px;}
+.ec-title{font-size:14px;font-weight:700;margin-bottom:7px;}
+.ec-text{font-size:13px;color:var(--muted);line-height:1.6;}
+.ec-hl{margin-top:10px;padding:9px 11px;background:var(--surface2);border-radius:6px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--accent);border-left:2px solid var(--accent);}
+
+/* PIPELINE */
+.pipe{display:flex;flex-direction:column;gap:2px;}
+.ps{display:flex;gap:18px;align-items:flex-start;padding:14px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s;}
+.ps:hover{background:var(--surface2);}
+.sn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);flex-shrink:0;font-weight:600;}
+.sc{flex:1;}
+.st{font-size:14px;font-weight:600;margin-bottom:3px;}
+.sd{font-size:12px;color:var(--muted);line-height:1.5;}
+.sb{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid;margin-top:7px;display:inline-block;}
+.bd{border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.05);}
+.bk{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05);}
+.info-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:13px;line-height:1.7;color:var(--text);}
+.ib-title{font-weight:600;color:var(--accent);margin-bottom:6px;font-size:14px;}
+
+/* GRAPH */
+.gnodes{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.gnode{padding:11px 16px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid;cursor:pointer;transition:all 0.2s;font-family:'IBM Plex Mono',monospace;}
+.gnode.ep{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05);}
+.gnode.pr{border-color:var(--accent4);color:var(--accent4);background:rgba(255,217,61,0.05);}
+.gnode.hl{border-color:var(--accent2);color:var(--accent2);background:rgba(0,255,157,0.05);}
+.gnode.tc{border-color:var(--accent3);color:var(--accent3);background:rgba(255,107,107,0.05);}
+.gnode:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,0.3);}
+.gnode.sel{box-shadow:0 0 0 2px currentColor;}
+.el{display:flex;gap:14px;flex-wrap:wrap;}
+.ei{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);cursor:pointer;}
+.ei:hover span{color:var(--text);}
+.eline{width:22px;height:2px;border-radius:1px;}
+
+/* RESULTS */
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:640px){.rg{grid-template-columns:1fr;}}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;}
+.ml{font-size:11px;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace;}
+.mr{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.mm{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);width:22px;}
+.mb{flex:1;height:7px;background:var(--surface2);border-radius:4px;overflow:hidden;}
+.mbar{height:100%;border-radius:4px;}
+.mv{font-size:12px;font-family:'IBM Plex Mono',monospace;width:46px;text-align:right;font-weight:600;}
+.el-list{display:flex;flex-direction:column;gap:7px;}
+.er{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:11px 14px;cursor:pointer;transition:all 0.15s;}
+.er:hover{border-color:var(--accent);}
+.erank{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);width:26px;}
+.eseq{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;flex:1;letter-spacing:1px;}
+.ecls{font-size:10px;padding:2px 7px;border-radius:4px;border:1px solid;font-family:'IBM Plex Mono',monospace;}
+.ecls.c1{border-color:var(--accent);color:var(--accent);}
+.ecls.c2{border-color:var(--accent3);color:var(--accent3);}
+.egene{font-size:11px;color:var(--muted);width:70px;}
+.escore{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);width:48px;text-align:right;}
+.ebadge{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(0,255,157,0.1);color:var(--accent2);border:1px solid rgba(0,255,157,0.2);font-family:'IBM Plex Mono',monospace;}
+
+/* VACCINE */
+.cov-big{text-align:center;padding:36px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;}
+.cov-num{font-size:72px;font-weight:700;font-family:'IBM Plex Mono',monospace;color:var(--accent2);line-height:1;}
+.cov-label{font-size:16px;color:var(--muted);margin-top:7px;}
+.cov-sub{font-size:13px;color:var(--text);margin-top:10px;}
+.cov-row{display:flex;gap:12px;}
+.cc{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;}
+.ccn{font-size:28px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.ccl{font-size:11px;color:var(--muted);margin-top:3px;}
+.cseq{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;padding:20px;background:var(--surface2);border-radius:8px;word-break:break-all;border:1px solid var(--border);}
+.s-adj{color:var(--accent3);font-weight:700;}
+.s-lnk{color:var(--muted);}
+.s-c1{color:var(--accent);font-weight:600;}
+.s-c2{color:var(--accent3);font-weight:600;}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+@media(max-width:640px){.pg{grid-template-columns:1fr 1fr;}}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;}
+.pv{font-size:20px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.pv.ok{color:var(--accent2);}.pv.wn{color:var(--accent4);}
+.pl{font-size:11px;color:var(--muted);margin-top:3px;}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,0.4);}50%{box-shadow:0 0 0 6px rgba(0,212,255,0);}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><div class="nav-dot"></div><span>TB-GNN</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="go('home')"><span class="num">00 </span>Overview</button>
+    <button class="nav-tab" onclick="go('bio')"><span class="num">01 </span>The Problem</button>
+    <button class="nav-tab" onclick="go('pipe')"><span class="num">02 </span>Pipeline</button>
+    <button class="nav-tab" onclick="go('graph')"><span class="num">03 </span>The Graph</button>
+    <button class="nav-tab" onclick="go('res')"><span class="num">04 </span>Results</button>
+    <button class="nav-tab" onclick="go('vax')"><span class="num">05 </span>Vaccine</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+<div class="hero">
+  <div class="hero-tag"><div style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></div>Final Year Project · CS · 2025</div>
+  <h1>Designing a <span class="hl">TB Vaccine</span><br>Using <span class="hl2">Graph Neural Networks</span></h1>
+  <p class="hero-sub">We built an AI system that reads millions of biological relationships and identifies the best peptide fragments to include in a tuberculosis vaccine — covering 96.4% of the world's population.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">46,949</div><div class="stat-label">Nodes in the graph</div></div>
+    <div class="stat"><div class="stat-num">290,486</div><div class="stat-label">Biological edges</div></div>
+    <div class="stat"><div class="stat-num g">0.893</div><div class="stat-label">AUROC accuracy</div></div>
+    <div class="stat"><div class="stat-num y">96.4%</div><div class="stat-label">Population coverage</div></div>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+    <button class="btn btn-p" onclick="go('bio')">Start exploring →</button>
+    <button class="btn btn-g" onclick="go('vax')">See the vaccine construct</button>
+  </div>
+</div>
+</div>
+
+<!-- BIOLOGY -->
+<div id="page-bio" class="page">
+<div class="container">
+  <div class="sh mt16">
+    <div class="sh-tag">01 · The Problem</div>
+    <div class="sh-title">Why do we need a better TB vaccine?</div>
+    <div class="sh-sub">TB kills 1.3 million people per year. The existing vaccine (BCG) is only 50% effective in adults. MDR-TB is making antibiotics useless. We need a smarter, targeted vaccine.</div>
+  </div>
+  <div class="eg">
+    <div class="ec b"><div class="ec-icon">🦠</div><div class="ec-title">What is an Epitope?</div><div class="ec-text">When bacteria infect you, your immune system breaks them into tiny fragments called <strong>epitopes</strong> — like puzzle pieces your immune cells learn to recognise. A vaccine shows these fragments in advance so the immune system is prepared when the real infection arrives.</div><div class="ec-hl">Length: 8–25 amino acids · Source: TB proteins</div></div>
+    <div class="ec g"><div class="ec-icon">🔑</div><div class="ec-title">What is HLA?</div><div class="ec-text">HLA molecules are like "display stands" on your cells. They grab epitope fragments and hold them up for T-cells to see. Different people have different HLA types — a good vaccine needs epitopes that work across <strong>all HLA types worldwide</strong>.</div><div class="ec-hl">44,398 HLA alleles · 9/9 supertypes covered</div></div>
+    <div class="ec r"><div class="ec-icon">⚔️</div><div class="ec-title">What is a T-Cell?</div><div class="ec-text">T-cells are your immune soldiers. <strong>CD8+ (killer) T-cells</strong> recognise Class I epitopes and destroy infected cells. <strong>CD4+ (helper) T-cells</strong> recognise Class II epitopes and coordinate the whole immune response. Our vaccine activates both types.</div><div class="ec-hl">5 Class I epitopes + 8 Class II epitopes selected</div></div>
+    <div class="ec y"><div class="ec-icon">💊</div><div class="ec-title">Why MDR-TB is different</div><div class="ec-text">MDR-TB mutates the proteins that antibiotics target. Antibiotics stop working — but <strong>T-cells can still attack the same epitopes</strong>. We prioritised epitopes from essential genes that MDR-TB cannot mutate away without killing itself.</div><div class="ec-hl">inhA epitope ranked #1 · TCR gold standard confirmed</div></div>
+  </div>
+  <div class="card mt24">
+    <div class="card-title">The core challenge we solved</div>
+    <div class="card-sub">There are 23,884 possible TB epitopes. Which 13 do you put in a vaccine?</div>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:14px;">
+      <div style="text-align:center;"><div style="font-size:36px;font-family:'IBM Plex Mono',monospace;color:var(--accent3);font-weight:700;">23,884</div><div style="font-size:11px;color:var(--muted);">possible epitopes</div></div>
+      <div style="font-size:28px;color:var(--muted);">→</div>
+      <div style="font-size:13px;color:var(--muted);flex:1;line-height:1.7;min-width:200px;">Traditional methods test one epitope at a time. That would take <strong style="color:var(--text);">decades</strong>. We use a Graph Neural Network to rank all 23,884 simultaneously using existing experimental data as a learning signal.</div>
+      <div style="font-size:28px;color:var(--muted);">→</div>
+      <div style="text-align:center;"><div style="font-size:36px;font-family:'IBM Plex Mono',monospace;color:var(--accent2);font-weight:700;">13</div><div style="font-size:11px;color:var(--muted);">selected for vaccine</div></div>
+    </div>
+  </div>
+  <div style="margin-top:20px;text-align:right;"><button class="btn btn-p" onclick="go('pipe')">See the pipeline →</button></div>
+</div>
+</div>
+
+<!-- PIPELINE -->
+<div id="page-pipe" class="page">
+<div class="container">
+  <div class="sh mt16">
+    <div class="sh-tag">02 · Pipeline</div>
+    <div class="sh-title">8-Phase Computational Pipeline</div>
+    <div class="sh-sub">Click any phase to understand what it does and why it matters.</div>
+  </div>
+  <div class="pipe">
+    <div class="ps" onclick="pi(0)"><div class="sn">01</div><div class="sc"><div class="st">Data Collection & Cleaning</div><div class="sd">4 databases: IEDB (epitopes), VDJdb (TCR), IPD-IMGT/HLA, UniProt. 56,025 raw rows → 23,884 validated unique sequences.</div><span class="sb bd">✓ DONE</span></div></div>
+    <div class="ps" onclick="pi(1)"><div class="sn">02</div><div class="sc"><div class="st">Exploratory Data Analysis</div><div class="sd">12 publication figures. 9.6:1 class imbalance found. 9 gold-standard dual-evidence epitopes identified.</div><span class="sb bd">✓ DONE · 12 figures</span></div></div>
+    <div class="ps" onclick="pi(2)"><div class="sn">03</div><div class="sc"><div class="st">ESM-2 Protein Language Model</div><div class="sd">Meta AI's ESM-2 converts every amino acid sequence into a 320-dim embedding capturing biochemical context. 46,949 sequences in 4 minutes on GPU.</div><span class="sb bk">★ KEY INNOVATION</span></div></div>
+    <div class="ps" onclick="pi(3)"><div class="sn">04</div><div class="sc"><div class="st">Heterogeneous Graph Construction</div><div class="sd">46,949 nodes, 290,486 edges, 5 edge types. First TB vaccine paper to integrate epitope+protein+HLA+TCR as a single biological graph.</div><span class="sb bk">★ KEY INNOVATION</span></div></div>
+    <div class="ps" onclick="pi(4)"><div class="sn">05</div><div class="sc"><div class="st">GNN Training (HAN Architecture)</div><div class="sd">Heterogeneous Attention Network with dual focal+BCE loss. 4-layer message passing. AUROC 0.893 on held-out test set.</div><span class="sb bd">✓ DONE · AUROC 0.893</span></div></div>
+    <div class="ps" onclick="pi(5)"><div class="sn">06</div><div class="sc"><div class="st">Epitope Prioritisation</div><div class="sd">All 23,884 scored. All 9 gold-standard TCR-confirmed epitopes ranked in top 14 positions. 86% top-50 precision.</div><span class="sb bd">✓ DONE · 86% precision</span></div></div>
+    <div class="ps" onclick="pi(6)"><div class="sn">07</div><div class="sc"><div class="st">Model Improvement (Ablation Study)</div><div class="sd">4 model versions compared. Position-specific AA features, protein conservation, focal loss. F1 improved 0.46 → 0.56.</div><span class="sb bd">✓ DONE · 4-way ablation</span></div></div>
+    <div class="ps" onclick="pi(7)"><div class="sn">08</div><div class="sc"><div class="st">Multi-Epitope Vaccine Assembly</div><div class="sd">13 epitopes selected (5 Class I + 8 Class II). AAY/GPGPG/KK linkers. RS09 adjuvant. 226 aa · 96.4% population coverage.</div><span class="sb bd">✓ DONE · 96.4% coverage</span></div></div>
+  </div>
+  <div id="pi-box" class="info-box mt16" style="display:none;"><div class="ib-title" id="pi-title"></div><div id="pi-body"></div></div>
+</div>
+</div>
+
+<!-- GRAPH -->
+<div id="page-graph" class="page">
+<div class="container">
+  <div class="sh mt16">
+    <div class="sh-tag">03 · The Graph</div>
+    <div class="sh-title">Heterogeneous Biological Graph</div>
+    <div class="sh-sub">Click any node type or edge type to understand what it represents and why it matters.</div>
+  </div>
+  <div class="card">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;font-family:'IBM Plex Mono',monospace;">NODE TYPES — click to explore</div>
+    <div class="gnodes">
+      <div class="gnode ep" onclick="gn('epitope')">Epitope · 23,884</div>
+      <div class="gnode pr" onclick="gn('protein')">TB Protein · 21,008</div>
+      <div class="gnode hl" onclick="gn('hla')">HLA Allele · 2,000</div>
+      <div class="gnode tc" onclick="gn('tcr')">TCR CDR3 · 57</div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px;margin-top:20px;font-family:'IBM Plex Mono',monospace;">EDGE TYPES — click to explore</div>
+    <div class="el">
+      <div class="ei" onclick="ge('so')"><div class="eline" style="background:var(--accent4);"></div><span>source_of · 23,536</span></div>
+      <div class="ei" onclick="ge('bt')"><div class="eline" style="background:var(--accent2);"></div><span>binds_to · 71,625</span></div>
+      <div class="ei" onclick="ge('rb')"><div class="eline" style="background:var(--accent3);"></div><span>recognized_by · 57 ★</span></div>
+      <div class="ei" onclick="ge('st')"><div class="eline" style="background:var(--accent);"></div><span>similar_to · 191,002</span></div>
+      <div class="ei" onclick="ge('ss')"><div class="eline" style="background:var(--muted);"></div><span>same_supertype · 4,266</span></div>
+    </div>
+    <div class="info-box mt16" id="g-info">
+      <div class="ib-title">Click any node type or edge type above</div>
+      <div>The GNN learns to propagate information along edges — an epitope connected to a TCR-confirmed gold standard inherits some of that confidence through the graph structure. This is why the model can predict immunogenicity for epitopes that have never been tested in a lab.</div>
+    </div>
+  </div>
+  <div class="card mt16">
+    <div class="card-title">Why a graph? Why not just a sequence model?</div>
+    <div style="margin-top:10px;font-size:13px;color:var(--muted);line-height:1.8;">
+      A sequence model sees <code style="color:var(--accent);background:var(--surface2);padding:1px 5px;border-radius:3px;">RLPAKAPLL</code> and predicts from amino acids alone. But immunogenicity depends on <strong style="color:var(--text);">which protein it came from</strong> (essential gene?), <strong style="color:var(--text);">which HLA types can present it</strong> (population coverage?), and <strong style="color:var(--text);">whether a T-cell has ever recognised it</strong> (TCR evidence). The graph encodes all of these simultaneously — that is the core novelty.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div id="page-res" class="page">
+<div class="container">
+  <div class="sh mt16">
+    <div class="sh-tag">04 · Results</div>
+    <div class="sh-title">Model Performance — Ablation Study</div>
+    <div class="sh-sub">4 model versions compared. Higher bars = better performance.</div>
+  </div>
+  <div class="rg">
+    <div class="mc"><div class="ml">AUROC — ranking accuracy</div>
+      <div class="mr"><span class="mm">v1</span><div class="mb"><div class="mbar" style="width:89%;background:var(--accent);"></div></div><span class="mv" style="color:var(--accent);">0.893</span></div>
+      <div class="mr"><span class="mm">v2</span><div class="mb"><div class="mbar" style="width:88%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.881</span></div>
+      <div class="mr"><span class="mm">v3</span><div class="mb"><div class="mbar" style="width:88.7%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.887</span></div>
+      <div class="mr"><span class="mm">v4</span><div class="mb"><div class="mbar" style="width:88%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.881</span></div>
+    </div>
+    <div class="mc"><div class="ml">F1 Score — precision+recall balance</div>
+      <div class="mr"><span class="mm">v1</span><div class="mb"><div class="mbar" style="width:46%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.460</span></div>
+      <div class="mr"><span class="mm">v2</span><div class="mb"><div class="mbar" style="width:42%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.426</span></div>
+      <div class="mr"><span class="mm">v3</span><div class="mb"><div class="mbar" style="width:56%;background:var(--accent2);"></div></div><span class="mv" style="color:var(--accent2);">0.564</span></div>
+      <div class="mr"><span class="mm">v4</span><div class="mb"><div class="mbar" style="width:55%;background:var(--accent4);"></div></div><span class="mv" style="color:var(--accent4);">0.554</span></div>
+    </div>
+    <div class="mc"><div class="ml">AUPRC — precision-recall area</div>
+      <div class="mr"><span class="mm">v1</span><div class="mb"><div class="mbar" style="width:52.6%;background:var(--accent);"></div></div><span class="mv" style="color:var(--accent);">0.526</span></div>
+      <div class="mr"><span class="mm">v2</span><div class="mb"><div class="mbar" style="width:50%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.509</span></div>
+      <div class="mr"><span class="mm">v3</span><div class="mb"><div class="mbar" style="width:50%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">0.501</span></div>
+      <div class="mr"><span class="mm">v4</span><div class="mb"><div class="mbar" style="width:52%;background:var(--accent4);"></div></div><span class="mv" style="color:var(--accent4);">0.523</span></div>
+    </div>
+    <div class="mc"><div class="ml">Top-50 Precision — shortlist quality</div>
+      <div class="mr"><span class="mm">v1</span><div class="mb"><div class="mbar" style="width:62%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">62%</span></div>
+      <div class="mr"><span class="mm">v2</span><div class="mb"><div class="mbar" style="width:76%;background:var(--muted);"></div></div><span class="mv" style="color:var(--muted);">76%</span></div>
+      <div class="mr"><span class="mm">v3</span><div class="mb"><div class="mbar" style="width:86%;background:var(--accent2);"></div></div><span class="mv" style="color:var(--accent2);">86%</span></div>
+      <div class="mr"><span class="mm">v4</span><div class="mb"><div class="mbar" style="width:78%;background:var(--accent4);"></div></div><span class="mv" style="color:var(--accent4);">78%</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Gold Standard Validation — the strongest evidence</div>
+    <div class="card-sub">All 9 TCR-confirmed epitopes ranked in the top 14 out of 23,884. Probability by chance: ~1 in 10³⁰</div>
+    <div class="el-list mt16">
+      <div class="er"><span class="erank">#1</span><span class="eseq">RLPAKAPLL</span><span class="ecls c1">Class I</span><span class="egene">inhA</span><span class="escore">0.989</span><span class="ebadge">TCR+IEDB</span></div>
+      <div class="er"><span class="erank">#2</span><span class="eseq">MSQIMYNYPAMLGHA</span><span class="ecls c2">Class II</span><span class="egene">esxW</span><span class="escore">0.984</span><span class="ebadge">TCR+IEDB</span></div>
+      <div class="er"><span class="erank">#3</span><span class="eseq">LTDEQRAAALEKAAA</span><span class="ecls c2">Class II</span><span class="egene">mihF</span><span class="escore">0.977</span><span class="ebadge">TCR+IEDB</span></div>
+      <div class="er"><span class="erank">#4</span><span class="eseq">AAVVRFQEAANKQKQ</span><span class="ecls c2">Class II</span><span class="egene">esxW</span><span class="escore">0.974</span><span class="ebadge">TCR+IEDB</span></div>
+      <div class="er"><span class="erank">#5</span><span class="eseq">PPQIAANRSQLISLV</span><span class="ecls c2">Class II</span><span class="egene">PPE68</span><span class="escore">0.952</span><span class="ebadge">TCR+IEDB</span></div>
+    </div>
+    <div style="margin-top:14px;padding:11px;background:var(--surface2);border-radius:6px;font-size:13px;color:var(--muted);line-height:1.6;border-left:2px solid var(--accent2);">
+      <strong style="color:var(--accent2);">Key insight:</strong> The model ranked inhA #1 without being told it is a drug target gene. It learned this from the graph — inhA is connected to many high-confidence edges, propagating signal to its epitopes automatically.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- VACCINE -->
+<div id="page-vax" class="page">
+<div class="container">
+  <div class="sh mt16">
+    <div class="sh-tag">05 · Final Vaccine</div>
+    <div class="sh-title">The Assembled Vaccine Construct</div>
+    <div class="sh-sub">13 non-redundant epitopes joined by biological linkers, with an adjuvant to launch the immune response.</div>
+  </div>
+  <div class="cov-big">
+    <div class="cov-num">96.4%</div>
+    <div class="cov-label">Estimated Global Population Coverage</div>
+    <div class="cov-sub">All 9 major HLA supertypes covered · Works across diverse ethnic populations worldwide</div>
+  </div>
+  <div class="cov-row mt16">
+    <div class="cc"><div class="ccn" style="color:var(--accent);">75.9%</div><div class="ccl">Class I (CD8+)</div></div>
+    <div class="cc"><div class="ccn" style="color:var(--accent3);">85.0%</div><div class="ccl">Class II (CD4+)</div></div>
+    <div class="cc"><div class="ccn" style="color:var(--accent2);">8/13</div><div class="ccl">TCR-confirmed</div></div>
+    <div class="cc"><div class="ccn" style="color:var(--accent4);">226 aa</div><div class="ccl">Total length</div></div>
+  </div>
+  <div class="card mt16">
+    <div class="card-title">Construct Sequence</div>
+    <div class="card-sub"><span style="color:var(--accent3);">■ Adjuvant</span> · <span style="color:var(--muted);">■ Linker</span> · <span style="color:var(--accent);">■ Class I (CD8+)</span> · <span style="color:var(--accent3);">■ Class II (CD4+)</span></div>
+    <div class="cseq mt16">
+      <span class="s-adj">APPHALS</span><span class="s-lnk">-AAY-</span><span class="s-c1">RLPAKAPLL</span><span class="s-lnk">-AAY-</span><span class="s-c1">LAESIRPLV</span><span class="s-lnk">-AAY-</span><span class="s-c1">GLFLTTEAV</span><span class="s-lnk">-AAY-</span><span class="s-c1">YMPYPGTRI</span><span class="s-lnk">-AAY-</span><span class="s-c1">WYYQSGLSI</span><span class="s-lnk">-KK-</span><span class="s-c2">MSQIMYNYPAMLGHA</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">AAVVRFQEAANKQKQ</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">PPQIAANRSQLISLV</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">LTDEQRAAALEKAAA</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">TAAQAAVVRFQEAAN</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">PSPSMGRDIKVQFQS</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">MHVSFVMAYPEMLAA</span><span class="s-lnk">-GPGPG-</span><span class="s-c2">YDQSGLSVVMPVGGQSSFYS</span>
+    </div>
+  </div>
+  <div class="pg">
+    <div class="pc"><div class="pv ok">226</div><div class="pl">Length (aa)</div></div>
+    <div class="pc"><div class="pv ok">23.24</div><div class="pl">MW (kDa)</div></div>
+    <div class="pc"><div class="pv ok">8.59</div><div class="pl">pI</div></div>
+    <div class="pc"><div class="pv wn">80</div><div class="pl">Instability index*</div></div>
+    <div class="pc"><div class="pv ok">-0.06</div><div class="pl">GRAVY score</div></div>
+    <div class="pc"><div class="pv ok">9/9</div><div class="pl">HLA supertypes</div></div>
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:var(--muted);">* Instability > 40 is expected and common in multi-epitope constructs. Addressed via MD simulation as future work.</div>
+  <div class="card mt16">
+    <div class="card-title">What happens next — future validation</div>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:9px;">
+      <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;">STEP 1</span><span style="font-size:13px;color:var(--muted);">Submit to <strong style="color:var(--text);">ESMFold</strong> for 3D structure prediction (free, 5 min at esmatlas.com)</span></div>
+      <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;">STEP 2</span><span style="font-size:13px;color:var(--muted);">Molecular dynamics simulation (GROMACS) for structural stability</span></div>
+      <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;">STEP 3</span><span style="font-size:13px;color:var(--muted);">Verify HLA binding with <strong style="color:var(--text);">NetMHCpan</strong></span></div>
+      <div style="display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;flex-shrink:0;margin-top:1px;">STEP 4</span><span style="font-size:13px;color:var(--muted);">In vitro: express in E. coli, test T-cell activation in donor blood</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const pages=['home','bio','pipe','graph','res','vax'];
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+n).classList.add('active');
+  document.querySelectorAll('.nav-tab')[pages.indexOf(n)].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const PD=[
+  {t:"01 · Data Collection",b:"4 databases downloaded: IEDB (56,025 assay rows → 2,249 unique TB+ epitopes, 21,635 TB− negatives), VDJdb (209,654 rows → 61 TB+human TCR pairs, 57 unique CDR3s), IPD-IMGT/HLA (44,630 → 44,398 alleles), UniProt TB proteome (23,377 → 21,008 proteins). Key challenge: IEDB has one row per experiment — same epitope tested hundreds of times. We deduplicated to unique sequences while preserving all labels."},
+  {t:"02 · Exploratory Data Analysis",b:"12 publication figures. Key findings: (1) 9.6:1 class imbalance — a naive model saying 'not immunogenic' for everything would be 90.6% accurate but useless. (2) Average epitope length 15.6 aa, dominated by MHC Class II peptides — TB immunity is primarily CD4-mediated. (3) 9 gold-standard epitopes appear in BOTH IEDB and VDJdb — confirmed by lab experiments AND real T-cell recognition. These 9 became our primary validation targets."},
+  {t:"03 · ESM-2 Embeddings",b:"ESM-2 (Meta AI) was trained on 250 million protein sequences. It learned the grammar of amino acids — that Leucine and Isoleucine behave similarly, that certain patterns predict alpha-helices, that conserved positions across evolution are structurally important. Feeding RLPAKAPLL produces a 320-number vector encoding all of this. Far richer than one-hot encoding or physicochemical features. We also add 500-dim position-specific AA features that encode which amino acid is at each position — critical for HLA anchor residue prediction."},
+  {t:"04 · Heterogeneous Graph",b:"The key architectural decision: treat all biological entities as nodes and all relationships as edges in a single graph. An epitope node knows: which TB protein it came from (source_of), which HLA alleles can present it (binds_to), whether any T-cell has recognised it (recognized_by — gold standard), and which epitopes are biochemically similar (similar_to). With 4 message-passing rounds, the GNN can follow paths like: epitope A → similar to epitope B → recognized_by TCR C. This multi-hop reasoning is impossible with sequence-only models."},
+  {t:"05 · GNN Training",b:"HANConv (Heterogeneous Attention Network) uses separate attention mechanisms for each edge type, learning that TCR evidence is more informative than similarity edges. The 9.6:1 class imbalance required dual loss: 60% focal loss (suppresses easy negatives, amplifies hard positives) + 40% weighted BCE (preserves recall). AUROC 0.893 = given any random positive/negative pair, the model ranks the positive higher 89.3% of the time. Training time: 17 seconds on RTX 4050."},
+  {t:"06 · Epitope Prioritisation",b:"Composite score = 50% GNN + 25% TCR evidence + 15% HLA coverage + 10% essential gene bonus. Deduplication by sequence (some peptides appeared in both positive and negative datasets — kept highest score). Gold standard validation: all 9 TCR-confirmed epitopes ranked in top 14 out of 23,884. Probability by chance ≈ 1 in 10³⁰. The GNN learned real biology, not noise."},
+  {t:"07 · Ablation Study",b:"4 versions: v1 (baseline BCE, 128-dim, 3 layers) → v2 (denser edges, HLA supertypes) → v3 (focal loss α=0.80, 256-dim, 4 layers, position-AA features, conservation features) → v4 (dual 60%focal+40%BCE, all v3 architecture). Key finding: there is a precision-recall tradeoff — v1 has highest recall (0.83), v3 has best shortlist quality (86% top-50). We report both honestly and explain that the tradeoff is configurable."},
+  {t:"08 · Vaccine Assembly",b:"Greedy non-redundant selection: TCR-confirmed first, then essential genes, then by score. Reject any candidate with >80% k-mer similarity to already-selected epitopes. Result: 5 Class I (CD8+) + 8 Class II (CD4+). Linkers: AAY between Class I epitopes (proteasome cleavage signal), GPGPG between Class II (flexible spacer preserving conformation), KK at the class junction (charge separator), RS09 adjuvant at N-terminus (TLR4 agonist — launches innate immune response, bootstrapping adaptive immunity)."},
+];
+function pi(i){
+  document.getElementById('pi-box').style.display='block';
+  document.getElementById('pi-title').textContent=PD[i].t;
+  document.getElementById('pi-body').textContent=PD[i].b;
+  document.getElementById('pi-box').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+const NI={
+  epitope:{t:"Epitope Nodes · 23,884",b:"Each epitope is a short peptide (8–25 aa) from a TB protein. These are the prediction targets. Features: 320-dim ESM-2 + 500-dim position-AA = 820 total. 2,249 labeled immunogenic, 21,635 labeled non-immunogenic (9.6:1 imbalance). The GNN predicts which unlabeled ones are likely immunogenic by propagating signal from labeled neighbors through the graph."},
+  protein:{t:"TB Protein Nodes · 21,008",b:"The full M. tuberculosis H37Rv proteome. These are source nodes — each epitope came from one protein. Features: 320-dim ESM-2 + 4-dim conservation (is essential gene?, is ESX system?, is drug target?, normalised length) = 324. Protein nodes let the GNN learn that epitopes from essential genes deserve higher scores — a signal impossible to encode in the epitope sequence alone."},
+  hla:{t:"HLA Allele Nodes · 2,000",b:"Human Leukocyte Antigen alleles — molecules that present epitopes to T-cells. Different people have different HLA types. We sampled 2,000 proportionally from HLA-A/B/C/DR/DQ/DP families. Features: 320-dim ESM-2. Connected to epitopes via binds_to edges (top-3 most similar by cosine similarity). HLA supertype edges connect alleles with similar binding preferences."},
+  tcr:{t:"TCR CDR3 Nodes · 57 — GOLD STANDARD",b:"T-Cell Receptor CDR3 sequences from VDJdb — experimentally confirmed to recognise specific TB epitopes. Only 57 exist for TB — but through graph propagation, their signal reaches similar epitopes via similar_to edges. These 57 edges are the most informative in the entire graph. Features: 21-dim AA composition. The GNN learns to heavily weight proximity to TCR nodes when scoring epitopes."},
+};
+const EI={
+  so:{t:"source_of · Protein→Epitope · 23,536",b:"Connects each TB protein to the epitopes derived from it. Built by matching IEDB source molecule annotations to UniProt gene/protein names. Covers 98.5% of epitopes. Allows protein-level signals (essential gene? drug target?) to propagate down to epitope nodes during message passing."},
+  bt:{t:"binds_to · Epitope→HLA · 71,625",b:"Connects epitopes to their most similar HLA alleles (top-3 by ESM-2 cosine similarity, threshold > 0.5). Serves as a proxy for HLA binding affinity. Epitopes with more diverse HLA connections score higher in the composite ranking — they have broader population coverage potential."},
+  rb:{t:"recognized_by · Epitope→TCR · 57 ★ GOLD STANDARD",b:"The most valuable edges in the graph. Built from VDJdb direct annotations. Each edge = experimental proof that a real human T-cell recognises this epitope. These 57 edges anchor the entire learning process. Through similar_to edges, their influence propagates to biochemically related epitopes, enabling generalisation from 57 known cases to 23,884 candidates."},
+  st:{t:"similar_to · Epitope→Epitope · 191,002",b:"k-NN cosine similarity on ESM-2 embeddings (k=8, threshold=0.70). The generalisation mechanism: if epitope A is similar to gold-standard B, the GNN infers A may also be immunogenic. Without these edges, predictions would be impossible for the 99.98% of epitopes with no direct experimental data."},
+  ss:{t:"same_supertype · HLA→HLA · 4,266",b:"Connects HLA alleles within the same functional supertype (9 supertypes, Sette & Sidney 1999). Alleles in the same supertype bind similar peptides. These edges let the GNN learn supertype-level patterns: if an epitope binds HLA-A*02:01, it likely also binds A*02:06 — inferred through the HLA-HLA edges."},
+};
+function gn(t){
+  document.querySelectorAll('.gnode').forEach(n=>n.classList.remove('sel'));
+  document.querySelectorAll('.gnode.'+({epitope:'ep',protein:'pr',hla:'hl',tcr:'tc'}[t])).forEach(n=>n.classList.add('sel'));
+  const i=NI[t];
+  document.getElementById('g-info').innerHTML=`<div class="ib-title">${i.t}</div><div>${i.b}</div>`;
+}
+function ge(t){
+  const i=EI[t];
+  document.getElementById('g-info').innerHTML=`<div class="ib-title">${i.t}</div><div>${i.b}</div>`;
+}
+</script>
+</body>
+</html>

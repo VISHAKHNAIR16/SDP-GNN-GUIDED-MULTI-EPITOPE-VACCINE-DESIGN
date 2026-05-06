@@ -16,7 +16,7 @@ Fixes from failed v3:
             stalls, which is the correct behaviour.
 
     FIX 3: Removed layer-wise learning rates
-            The 0.3× LR on input_proj meant the new 820-dim feature extraction
+            The 0.3x LR on input_proj meant the new 820-dim feature extraction
             layers (the most important new part) barely updated. Uniform LR
             for all layers.
 

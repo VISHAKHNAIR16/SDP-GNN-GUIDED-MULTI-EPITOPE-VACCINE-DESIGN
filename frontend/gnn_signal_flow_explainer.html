@@ -1,0 +1,407 @@
+
+<style>
+  .gnn-wrap { font-family: var(--font-sans); padding: 1rem 0; }
+  .step-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .step-tab { padding: 7px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.15s; }
+  .step-tab.active { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); font-weight: 500; }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+  canvas { display: block; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); width: 100%; }
+  .caption { font-size: 13px; color: var(--color-text-secondary); margin-top: 10px; line-height: 1.6; padding: 12px 14px; border-radius: var(--border-radius-md); border-left: 2px solid var(--color-border-info); background: var(--color-background-primary); }
+  .caption b { color: var(--color-text-primary); font-weight: 500; }
+  .vec-row { display: flex; gap: 3px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+  .vec-cell { width: 18px; height: 18px; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: var(--font-mono); font-weight: 500; }
+  .vec-label { font-size: 12px; color: var(--color-text-secondary); margin-right: 6px; min-width: 80px; font-family: var(--font-mono); }
+  .anim-btn { padding: 7px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-primary); margin-top: 10px; }
+  .anim-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<div class="gnn-wrap">
+  <div class="step-tabs">
+    <button class="step-tab active" onclick="showStep(0)">1 · Embedding</button>
+    <button class="step-tab" onclick="showStep(1)">2 · Graph nodes</button>
+    <button class="step-tab" onclick="showStep(2)">3 · Message passing</button>
+    <button class="step-tab" onclick="showStep(3)">4 · Weight update</button>
+    <button class="step-tab" onclick="showStep(4)">5 · Prediction</button>
+  </div>
+
+  <!-- STEP 0: EMBEDDING -->
+  <div class="step-panel active" id="step-0">
+    <canvas id="c0" height="260"></canvas>
+    <div class="caption">
+      <b>What is happening:</b> The amino acid sequence RLPAKAPLL is fed into ESM-2 one token at a time. Each amino acid attends to every other amino acid using transformer attention. The final output is a single 320-dimensional vector — one number per dimension — that encodes the biochemical meaning of the whole sequence. Think of it as compressing a sentence into a fingerprint.
+    </div>
+  </div>
+
+  <!-- STEP 1: GRAPH NODES -->
+  <div class="step-panel" id="step-1">
+    <canvas id="c1" height="300"></canvas>
+    <div class="caption">
+      <b>What is happening:</b> Every biological entity becomes a node carrying its embedding vector. The epitope node starts with a 820-dim vector (320 ESM-2 + 500 position-AA features). The protein node has 324 dims. HLA and TCR nodes have their own vectors. At this point nothing is connected — these are just isolated number vectors sitting in space.
+    </div>
+  </div>
+
+  <!-- STEP 2: MESSAGE PASSING -->
+  <div class="step-panel" id="step-2">
+    <canvas id="c2" height="320"></canvas>
+    <button class="anim-btn" onclick="runMessageAnim()">Run message passing animation</button>
+    <div class="caption" id="mp-caption">
+      <b>What is happening:</b> Each node sends its vector as a "message" to all connected neighbours. The epitope receives messages from: its source protein, its HLA alleles, its TCR (if any), and similar epitopes. These messages arrive simultaneously in round 1. Press the button above to watch the signals flow.
+    </div>
+  </div>
+
+  <!-- STEP 3: WEIGHT UPDATE -->
+  <div class="step-panel" id="step-3">
+    <canvas id="c3" height="300"></canvas>
+    <div class="caption">
+      <b>What is happening:</b> Not all messages are equally important. The HANConv attention mechanism assigns a weight between 0 and 1 to each incoming message. A TCR recognition edge gets high weight (strong experimental evidence). A similarity edge to a low-scoring epitope gets low weight. These attention weights are what the GNN learns during training — it learns which connections to trust most.
+    </div>
+  </div>
+
+  <!-- STEP 4: PREDICTION -->
+  <div class="step-panel" id="step-4">
+    <canvas id="c4" height="280"></canvas>
+    <div class="caption">
+      <b>What is happening:</b> After 4 rounds of message passing, the epitope node holds a 256-dimensional representation that encodes everything known about it from its biological neighbourhood. A 3-layer classifier (256→128→32→1) converts this into a single probability between 0 and 1. Backpropagation compares this against the known label and adjusts all attention weights to reduce the error.
+    </div>
+  </div>
+</div>
+
+<script>
+const isDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+const T = () => isDark() ? '#c2c0b6' : '#3d3d3a';
+const S = () => isDark() ? '#444441' : '#d3d1c7';
+const BG2 = () => isDark() ? '#2c2c2a' : '#f1efe8';
+
+function setupCanvas(id) {
+  const c = document.getElementById(id);
+  if (!c) return null;
+  c.width = c.offsetWidth || 620;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0, 0, c.width, c.height);
+  return { c, ctx, W: c.width, H: c.height };
+}
+
+function drawRoundRect(ctx, x, y, w, h, r, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=0.5;ctx.stroke();}
+}
+
+function txt(ctx, text, x, y, size, color, align, weight) {
+  ctx.font = (weight||'400')+' '+size+'px var(--font-sans,sans-serif)';
+  ctx.fillStyle = color;
+  ctx.textAlign = align||'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x, y);
+}
+
+function mono(ctx, text, x, y, size, color, align) {
+  ctx.font = '500 '+size+'px var(--font-mono,monospace)';
+  ctx.fillStyle = color;
+  ctx.textAlign = align||'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x, y);
+}
+
+function arrow(ctx, x1, y1, x2, y2, color) {
+  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len,uy=dy/len;
+  ctx.strokeStyle=color; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2-ux*8,y2-uy*8); ctx.stroke();
+  ctx.fillStyle=color;
+  const angle=Math.atan2(dy,dx);
+  ctx.save(); ctx.translate(x2,y2); ctx.rotate(angle);
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-10,4); ctx.lineTo(-10,-4); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+function drawVecBar(ctx, x, y, values, label, color, W) {
+  const cw = Math.min(14, (W-120)/values.length);
+  txt(ctx, label, x, y+7, 11, T(), 'left');
+  values.forEach((v,i) => {
+    const intensity = Math.abs(v);
+    const alpha = 0.15 + intensity * 0.85;
+    ctx.fillStyle = color + Math.round(alpha*255).toString(16).padStart(2,'0');
+    ctx.fillRect(x+90+i*cw, y, cw-1, 14);
+  });
+  mono(ctx, '['+values.slice(0,4).map(v=>v.toFixed(2)).join(', ')+' ... ]', x+90+values.length*cw+6, y+7, 10, T(), 'left');
+}
+
+function step0() {
+  const g = setupCanvas('c0'); if(!g)return;
+  const {ctx,W,H} = g;
+
+  const seq = ['R','L','P','A','K','A','P','L','L'];
+  const cellW = 34, startX = (W - seq.length*cellW)/2;
+  const colors = ['#534AB7','#0F6E56','#993C1D','#888780','#854F0B','#888780','#993C1D','#0F6E56','#0F6E56'];
+
+  txt(ctx,'Input: amino acid sequence',W/2,28,13,T(),'center','500');
+
+  seq.forEach((aa,i) => {
+    const x = startX + i*cellW;
+    drawRoundRect(ctx,x,45,30,30,4,colors[i]+'22',colors[i]);
+    mono(ctx,aa,x+15,60,13,colors[i],'center');
+  });
+
+  txt(ctx,'ESM-2 transformer (250M protein sequences trained)',W/2,102,12,T(),'center');
+
+  ctx.strokeStyle=S(); ctx.lineWidth=0.5; ctx.setLineDash([3,3]);
+  ctx.strokeRect(20,112,W-40,60);
+  ctx.setLineDash([]);
+  txt(ctx,'Self-attention layers: each amino acid looks at every other amino acid',W/2,135,11,T(),'center');
+  txt(ctx,'"R sees that P is 2 positions away and is a proline — structurally constraining"',W/2,155,11,isDark()?'#888780':'#5F5E5A','center');
+
+  const vecY = 192;
+  txt(ctx,'Output: one 320-dimensional vector encoding the whole sequence',W/2,vecY,12,T(),'center');
+
+  const vals = [0.82,-0.31,0.54,-0.71,0.23,0.67,-0.45,0.38,0.91,-0.22,0.55,-0.38,0.71,-0.59,0.44,0.33,-0.77,0.62,-0.48,0.85];
+  const barW = W - 100;
+  const cellSize = barW / vals.length;
+  vals.forEach((v,i) => {
+    const intensity = (v+1)/2;
+    ctx.fillStyle = `rgba(83,74,183,${0.1+intensity*0.8})`;
+    ctx.fillRect(50+i*cellSize, vecY+18, cellSize-1, 20);
+  });
+  mono(ctx,'[ 0.82, -0.31, 0.54, -0.71, 0.23 ... ] (320 numbers)',W/2,vecY+48,10,T(),'center');
+  txt(ctx,'Each number encodes one aspect of biochemical meaning',W/2,vecY+62,11,isDark()?'#888780':'#5F5E5A','center');
+}
+
+function step1() {
+  const g = setupCanvas('c1'); if(!g)return;
+  const {ctx,W,H} = g;
+
+  const nodes = [
+    { x:W/2, y:120, label:'RLPAKAPLL', sub:'Epitope · 820 dims', color:'#534AB7', r:30 },
+    { x:W/2-180, y:240, label:'inhA protein', sub:'Protein · 324 dims', color:'#0F6E56', r:24 },
+    { x:W/2+170, y:240, label:'HLA-A*02:01', sub:'HLA · 320 dims', color:'#993C1D', r:22 },
+    { x:W/2-80, y:268, label:'TCR CDR3', sub:'TCR · 21 dims', color:'#854F0B', r:20 },
+    { x:W/2+60, y:270, label:'RLPAKAPLV', sub:'Similar · 820 dims', color:'#3C3489', r:20 },
+  ];
+
+  txt(ctx,'Before message passing: isolated nodes, no connections yet',W/2,22,13,T(),'center','500');
+
+  nodes.forEach(n => {
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle=n.color+'22'; ctx.fill();
+    ctx.strokeStyle=n.color; ctx.lineWidth=1.5; ctx.stroke();
+    txt(ctx,n.label,n.x,n.y-5,11,n.color,'center','500');
+    txt(ctx,n.sub,n.x,n.y+10,10,n.color+'aa','center');
+
+    const vecLen = 16;
+    const vx = n.x - vecLen*5;
+    for(let i=0;i<vecLen;i++) {
+      const v = Math.sin(i*0.8+n.x*0.01)*0.5+0.5;
+      ctx.fillStyle=n.color+Math.round((0.1+v*0.7)*255).toString(16).padStart(2,'0');
+      ctx.fillRect(vx+i*6, n.y+n.r+6, 5, 8);
+    }
+    txt(ctx,'vector',n.x,n.y+n.r+18,9,n.color+'88','center');
+  });
+
+  txt(ctx,'Each node is just a vector of numbers — no biological meaning yet',W/2,H-14,11,isDark()?'#888780':'#5F5E5A','center');
+}
+
+let animFrame = null;
+let animStep = 0;
+const totalAnimSteps = 60;
+
+function step2() {
+  const g = setupCanvas('c2'); if(!g)return;
+  const {ctx,W,H} = g;
+  drawMessagePassing(ctx, W, H, 0);
+}
+
+function drawMessagePassing(ctx, W, H, progress) {
+  ctx.clearRect(0,0,W,H);
+
+  const cx=W/2, cy=150;
+  const neighbours = [
+    { x:cx-190, y:80,  label:'inhA protein',   edge:'source_of',     color:'#0F6E56', msg:'I am from an essential gene. I am a drug target.' },
+    { x:cx+185, y:80,  label:'HLA-A*02:01',    edge:'binds_to',      color:'#993C1D', msg:'I can present you. My groove fits your anchors.' },
+    { x:cx-180, y:250, label:'TCR CDR3',        edge:'recognized_by', color:'#854F0B', msg:'A real T-cell recognised you in a lab. Gold standard.' },
+    { x:cx+175, y:250, label:'RLPAKAPLV',       edge:'similar_to',    color:'#3C3489', msg:'I am similar to you. I also score highly.' },
+    { x:cx,     y:280, label:'HLA-B*07:02',     edge:'binds_to',      color:'#993C1D', msg:'Another HLA type can also present you.' },
+  ];
+
+  txt(ctx,'Round 1 of 4 message passing — neighbours send their vectors',W/2,22,13,T(),'center','500');
+
+  neighbours.forEach((n,i) => {
+    ctx.beginPath(); ctx.arc(n.x,n.y,20,0,Math.PI*2);
+    ctx.fillStyle=n.color+'22'; ctx.fill();
+    ctx.strokeStyle=n.color; ctx.lineWidth=1; ctx.stroke();
+    txt(ctx,n.label,n.x,n.y,10,n.color,'center');
+
+    const dx=cx-n.x, dy=cy-n.y, len=Math.sqrt(dx*dx+dy*dy);
+    const ux=dx/len, uy=dy/len;
+    const sx=n.x+ux*22, sy=n.y+uy*22;
+    const ex=cx-ux*34, ey=cy-uy*34;
+
+    ctx.strokeStyle=n.color+'44'; ctx.lineWidth=0.5; ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+
+    if(progress>0) {
+      const t = Math.min(1, progress*5 - i*0.8);
+      if(t>0) {
+        const px=sx+ux*(ex-sx)*t, py=sy+uy*(ey-sy)*t;
+        ctx.beginPath(); ctx.arc(px,py,5,0,Math.PI*2);
+        ctx.fillStyle=n.color; ctx.fill();
+
+        if(t > 0.6) {
+          ctx.globalAlpha = (t-0.6)*2.5;
+          ctx.font='10px var(--font-sans,sans-serif)';
+          ctx.fillStyle=n.color; ctx.textAlign='center'; ctx.textBaseline='middle';
+          const mx=(sx+ex)/2+15, my=(sy+ey)/2;
+          ctx.fillText(n.edge, mx, my);
+          ctx.globalAlpha=1;
+        }
+      }
+    }
+  });
+
+  ctx.beginPath(); ctx.arc(cx,cy,34,0,Math.PI*2);
+  ctx.fillStyle=isDark()?'#3C3489':'#EEEDFE'; ctx.fill();
+  ctx.strokeStyle='#534AB7'; ctx.lineWidth=2; ctx.stroke();
+  txt(ctx,'RLPAKAPLL',cx,cy-6,11,'#534AB7','center','500');
+  txt(ctx,'epitope',cx,cy+8,10,'#534AB766','center');
+
+  if(progress>0.8) {
+    ctx.globalAlpha=(progress-0.8)*5;
+    drawRoundRect(ctx,cx-140,cy+50,280,38,6,isDark()?'#27500a':'#EAF3DE','#3B6D11');
+    txt(ctx,'Aggregating messages... updating representation',cx,cy+69,11,'#27500A','center');
+    ctx.globalAlpha=1;
+  }
+}
+
+function runMessageAnim() {
+  if(animFrame) cancelAnimationFrame(animFrame);
+  animStep=0;
+  const g = setupCanvas('c2');
+  if(!g)return;
+  const {ctx,W,H}=g;
+  const captions = [
+    'Round 1: Each neighbour sends its entire vector to the epitope node. The protein says "I come from an essential gene." The TCR says "I have gold-standard experimental confirmation."',
+    'The epitope receives all messages simultaneously and aggregates them using weighted attention. TCR edges get higher attention weight than similarity edges.',
+    'After aggregation, the epitope node updates its own vector — it now contains information from all its biological neighbours. This is one round of message passing.',
+    'After 4 rounds, the epitope has seen information from neighbours of neighbours. It knows context 4 hops away in the biological graph.'
+  ];
+  function frame() {
+    const p = animStep/totalAnimSteps;
+    drawMessagePassing(ctx,W,H,p);
+    const ci = Math.min(3, Math.floor(p*4));
+    document.getElementById('mp-caption').innerHTML='<b>Round '+(ci+1)+' of 4:</b> '+captions[ci];
+    animStep++;
+    if(animStep<=totalAnimSteps) animFrame=requestAnimationFrame(frame);
+  }
+  animFrame=requestAnimationFrame(frame);
+}
+
+function step3() {
+  const g = setupCanvas('c3'); if(!g)return;
+  const {ctx,W,H} = g;
+
+  txt(ctx,'Attention weights: not all messages are trusted equally',W/2,22,13,T(),'center','500');
+
+  const edges = [
+    { label:'TCR recognized_by',  weight:0.42, color:'#854F0B', reason:'Experimental proof a T-cell bound this' },
+    { label:'source_of (inhA)',   weight:0.28, color:'#0F6E56', reason:'Essential gene — high biological importance' },
+    { label:'binds_to (HLA)',     weight:0.18, color:'#993C1D', reason:'Structural HLA compatibility signal' },
+    { label:'similar_to epitope', weight:0.08, color:'#534AB7', reason:'Weaker signal — just biochemical similarity' },
+    { label:'similar_to epitope', weight:0.04, color:'#3C3489', reason:'Another similar epitope — lower confidence' },
+  ];
+
+  const total = edges.reduce((s,e)=>s+e.weight,0);
+
+  txt(ctx,'Incoming messages for RLPAKAPLL — learned attention weights after training:',40,52,12,T(),'left');
+
+  edges.forEach((e,i) => {
+    const y = 72+i*42;
+    const barW = Math.round((e.weight/total)*380);
+
+    drawRoundRect(ctx,40,y,barW+4,28,4,e.color+'22',e.color+'66');
+    ctx.fillStyle=e.color; ctx.fillRect(40,y,barW,28);
+
+    txt(ctx,e.label,50,y+14,11,isDark()?'#ffffff':'#1a1a1a','left','500');
+    txt(ctx,Math.round(e.weight*100)+'% weight',barW+50,y+8,12,e.color,'left','500');
+    txt(ctx,e.reason,barW+50,y+22,10,T()+'88','left');
+  });
+
+  const learnY = 290;
+  drawRoundRect(ctx,40,learnY,W-80,36,6,isDark()?'#0c447c22':'#E6F1FB','#185FA5');
+  txt(ctx,'These weights are not fixed — they are learned by backpropagation during 200 epochs of training',W/2,learnY+18,12,isDark()?'#85B7EB':'#185FA5','center');
+}
+
+function step4() {
+  const g = setupCanvas('c4'); if(!g)return;
+  const {ctx,W,H} = g;
+
+  txt(ctx,'From neighbourhood vector to immunogenicity probability',W/2,22,13,T(),'center','500');
+
+  const layers = [
+    { label:'After 4 rounds\nof message passing', dim:'256-dim', x:60,  w:90,  color:'#534AB7' },
+    { label:'Dense layer 1\n+ ReLU activation', dim:'128-dim', x:200, w:80,  color:'#185FA5' },
+    { label:'Dense layer 2\n+ ReLU activation', dim:'32-dim',  x:330, w:60,  color:'#0F6E56' },
+    { label:'Output\n+ Sigmoid', dim:'1 number', x:445, w:50,  color:'#854F0B' },
+  ];
+
+  layers.forEach((l,i) => {
+    const neurons = [256,128,32,1][i];
+    const drawN = Math.min(neurons, 10);
+    const spacing = 22;
+    const totalH = drawN*spacing;
+    const startY = H/2 - totalH/2 + 20;
+
+    for(let j=0;j<drawN;j++) {
+      ctx.beginPath(); ctx.arc(l.x+l.w/2, startY+j*spacing, 7, 0, Math.PI*2);
+      ctx.fillStyle=l.color+'33'; ctx.fill();
+      ctx.strokeStyle=l.color; ctx.lineWidth=0.5; ctx.stroke();
+    }
+    if(neurons>10) {
+      txt(ctx,'...', l.x+l.w/2, startY+drawN*spacing+4, 14, l.color, 'center');
+    }
+
+    txt(ctx,l.dim, l.x+l.w/2, startY-18, 11, l.color, 'center', '500');
+
+    const labelLines = l.label.split('\n');
+    labelLines.forEach((line,li) => {
+      txt(ctx, line, l.x+l.w/2, startY+totalH+24+li*14, 10, T(), 'center');
+    });
+
+    if(i<layers.length-1) {
+      const nx=layers[i+1];
+      ctx.strokeStyle=S(); ctx.lineWidth=0.5;
+      ctx.beginPath(); ctx.moveTo(l.x+l.w/2+10,H/2); ctx.lineTo(nx.x+nx.w/2-10,H/2); ctx.stroke();
+      txt(ctx,'→',l.x+l.w/2+20,H/2,14,T(),'center');
+    }
+  });
+
+  drawRoundRect(ctx,W-130,H/2-22,120,44,8,isDark()?'#173404':'#EAF3DE','#3B6D11');
+  txt(ctx,'Score: 0.989',W-70,H/2-6,14,'#3B6D11','center','500');
+  txt(ctx,'→ immunogenic',W-70,H/2+12,11,'#3B6D11','center');
+
+  const bpY = H-40;
+  drawRoundRect(ctx,40,bpY-14,W-80,28,4,isDark()?'#501313':'#FCEBEB','#A32D2D');
+  txt(ctx,'Backpropagation: predicted 0.989 vs true label 1.0 → error = 0.011 → adjust all attention weights slightly → repeat 200 epochs',W/2,bpY,10,isDark()?'#F09595':'#A32D2D','center');
+}
+
+function showStep(i) {
+  document.querySelectorAll('.step-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  document.querySelectorAll('.step-tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  setTimeout(()=>{[step0,step1,step2,step3,step4][i]();},50);
+}
+
+setTimeout(()=>{step0();},100);
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{
+  const active = document.querySelector('.step-tab.active');
+  if(active) active.click();
+});
+window.addEventListener('resize', ()=>{
+  const idx = [...document.querySelectorAll('.step-tab')].findIndex(t=>t.classList.contains('active'));
+  if(idx>=0) setTimeout(()=>{[step0,step1,step2,step3,step4][idx]();},50);
+});
+</script>
