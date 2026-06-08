@@ -1,0 +1,18 @@
+{
+  "disease": "COVID-19 (SARS-CoV-2)",
+  "n_epitopes": 8348,
+  "n_positive": 4213,
+  "n_negative": 4135,
+  "n_proteins": 11,
+  "n_hla": 16,
+  "n_tcr": 9333,
+  "n_gold_standard": 668,
+  "e_source_of": 8348,
+  "e_binds_to": 25732,
+  "e_recognized_by": 9428,
+  "e_similar_to": 41722,
+  "fixes_applied": [
+    "orphan_protein_removal",
+    "tcr_confirmed_label_restriction"
+  ]
+}

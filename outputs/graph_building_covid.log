@@ -1,0 +1,31 @@
+2026-06-06 00:07:51.544 | INFO     | __main__:load_all_data:110 -   Epitopes: 8,348 nodes, dim=320
+2026-06-06 00:07:51.553 | INFO     | __main__:load_all_data:123 -   COVID proteins: 17 nodes, dim=320
+2026-06-06 00:07:51.575 | INFO     | __main__:load_all_data:136 -   HLA alleles: 16 nodes, dim=320
+2026-06-06 00:07:51.654 | INFO     | __main__:load_all_data:157 -   Gold-standard epitopes (IEDB pos ∩ VDJdb): 668
+2026-06-06 00:07:51.660 | INFO     | __main__:load_all_data:164 -   VDJdb rows linking to gold-standard epitopes: 9,428
+2026-06-06 00:07:51.664 | INFO     | __main__:load_all_data:170 -   Unique CDR3s linked to gold-standard epitopes: 9,333 (filtered from 9,341 total)
+2026-06-06 00:07:51.717 | INFO     | __main__:load_all_data:210 -   TCR CDR3 nodes (gold-standard only): 9,333
+2026-06-06 00:07:51.719 | INFO     | __main__:build_hetero_graph:660 - Adding node features...
+2026-06-06 00:07:51.761 | INFO     | __main__:build_hetero_graph:681 -   Epitopes with tcr_confirmed=1: 1,017
+2026-06-06 00:07:51.781 | INFO     | __main__:build_hetero_graph:700 -   epitope nodes : torch.Size([8348, 320])
+2026-06-06 00:07:51.784 | INFO     | __main__:build_hetero_graph:701 -   protein nodes : torch.Size([17, 320])
+2026-06-06 00:07:51.786 | INFO     | __main__:build_hetero_graph:702 -   hla nodes     : torch.Size([16, 320])
+2026-06-06 00:07:51.789 | INFO     | __main__:build_hetero_graph:703 -   tcr nodes     : torch.Size([9333, 320])
+2026-06-06 00:07:51.790 | INFO     | __main__:build_hetero_graph:706 - Building edges...
+2026-06-06 00:07:51.791 | INFO     | __main__:build_protein_epitope_edges:234 - Building protein → epitope edges (source_of)
+2026-06-06 00:07:52.008 | INFO     | __main__:build_protein_epitope_edges:335 -   Matched 8,348 / 8,348 epitopes to source proteins
+2026-06-06 00:07:52.009 | INFO     | __main__:build_epitope_hla_edges:372 - Building epitope → HLA edges (binds_to)
+2026-06-06 00:07:52.150 | INFO     | __main__:build_epitope_hla_edges:424 -   Step 1 (allele name match): 688 epitope→HLA edges
+2026-06-06 00:07:52.151 | INFO     | __main__:build_epitope_hla_edges:434 -   Step 2: supplementing with embedding similarity (only 668 epitopes matched so far)
+2026-06-06 00:07:52.181 | INFO     | __main__:build_epitope_hla_edges:464 -   Step 2 added: 25,044 similarity-based epitope→HLA edges
+2026-06-06 00:07:52.181 | INFO     | __main__:build_epitope_hla_edges:466 -   Total epitope→HLA edges: 25,732
+2026-06-06 00:07:52.184 | INFO     | __main__:build_epitope_tcr_edges:496 - Building epitope → TCR edges (recognized_by — gold standard only)
+2026-06-06 00:07:52.325 | INFO     | __main__:build_epitope_tcr_edges:531 -   Built 9,428 epitope→TCR edges (gold standard)
+2026-06-06 00:07:52.326 | INFO     | __main__:build_epitope_similarity_edges:578 - Building epitope similarity edges (k=5, threshold=0.85)
+2026-06-06 00:07:52.337 | INFO     | __main__:build_epitope_similarity_edges:590 -   Processing 8,348 epitopes in batches of 1000...
+2026-06-06 00:07:52.536 | INFO     | __main__:build_epitope_similarity_edges:613 -   Progress: 1,000/8,348 (12%) — 4,995 edges so far
+2026-06-06 00:07:53.582 | INFO     | __main__:build_epitope_similarity_edges:613 -   Progress: 6,000/8,348 (72%) — 29,990 edges so far
+2026-06-06 00:07:54.066 | INFO     | __main__:build_epitope_similarity_edges:619 -   Built 41,722 epitope similarity edges
+2026-06-06 00:07:54.120 | INFO     | __main__:save_graph:746 -   Graph saved: data\processed_covid\graph\covid_graph.pt (24.6 MB)
+2026-06-06 00:07:54.122 | INFO     | __main__:save_graph:753 -   Stats saved: data\processed_covid\graph\covid_graph_stats.json
+2026-06-06 00:07:54.140 | INFO     | __main__:main:878 -   Total time: 2.7s

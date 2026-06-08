@@ -1,0 +1,187 @@
+2026-06-06 00:38:34.568 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 00:38:34.569 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 00:38:34.576 | INFO     | __main__:load_data:236 - Loading COVID embeddings with v3 enhancements...
+2026-06-06 00:38:34.599 | INFO     | __main__:build_position_features:168 -   Building position-AA features for 8,348 epitopes...
+2026-06-06 00:38:34.658 | INFO     | __main__:load_data:258 -   Epitope dim: 320 ESM + 500 pos-AA + 1 tcr_confirmed = 821
+2026-06-06 00:38:34.669 | INFO     | __main__:load_data:271 -   Using active protein metadata (11 proteins)
+2026-06-06 00:38:34.670 | INFO     | __main__:load_data:281 -   Embedding file has 17 proteins, graph has 11 active proteins — aligning...
+2026-06-06 00:38:34.670 | INFO     | __main__:load_data:287 -   Using protein embeddings from saved graph: (11, 320)
+2026-06-06 00:38:34.673 | INFO     | __main__:build_covid_protein_features:194 -   Structural proteins: 4 | Spike: 1 | Conserved: 3
+2026-06-06 00:38:34.673 | INFO     | __main__:load_data:295 -   Protein dim: 320 ESM + 4 annotation = 324
+2026-06-06 00:38:34.675 | INFO     | __main__:load_data:304 -   HLA dim: 320 (16 alleles)
+2026-06-06 00:38:34.676 | INFO     | __main__:load_data:314 -   TCR nodes: 9,333 gold-standard CDR3s
+2026-06-06 00:38:34.745 | INFO     | __main__:load_data:324 -   Nodes — Epitopes: 8,348 | Proteins: 11 | HLA: 16 | TCR: 9,333
+2026-06-06 00:38:34.765 | INFO     | __main__:build_graph:522 -   epitope feature dim: 821
+2026-06-06 00:38:34.765 | INFO     | __main__:build_graph:522 -   protein feature dim: 324
+2026-06-06 00:38:34.766 | INFO     | __main__:build_graph:522 -   hla feature dim: 320
+2026-06-06 00:38:34.766 | INFO     | __main__:build_graph:522 -   tcr feature dim: 320
+2026-06-06 00:38:34.766 | INFO     | __main__:build_graph:524 - Building edges...
+2026-06-06 00:38:34.957 | INFO     | __main__:protein_epitope_edges:441 -   Protein→epitope edges: 8,309
+2026-06-06 00:38:34.984 | INFO     | __main__:epitope_hla_edges:464 -   Epitope→HLA edges: 25,044
+2026-06-06 00:38:35.125 | INFO     | __main__:epitope_tcr_edges:488 -   Epitope→TCR edges: 9,428
+2026-06-06 00:38:36.683 | INFO     | __main__:sim_edges:377 -   Similarity edges (k=8, t=0.7): 66,772
+2026-06-06 00:38:36.691 | INFO     | __main__:build_graph:533 -   Total edges: 109,553
+2026-06-06 00:38:37.253 | INFO     | __main__:main:1014 -   Node input dims: {'epitope': 821, 'protein': 324, 'hla': 320, 'tcr': 320}
+2026-06-06 00:38:37.335 | INFO     | __main__:main:1029 -   Parameters: 1,830,337 | Conv out dim: 256
+2026-06-06 00:38:37.340 | INFO     | __main__:make_splits:652 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 00:38:37.340 | INFO     | __main__:make_splits:653 -   Positives — train: 2,949
+2026-06-06 00:38:38.823 | INFO     | __main__:run_training:741 -   Ep  10 | loss=0.0867 | auroc=0.5636 | auprc=0.5503 | f1=0.6709
+2026-06-06 00:38:39.832 | INFO     | __main__:run_training:741 -   Ep  20 | loss=0.0864 | auroc=0.6220 | auprc=0.5998 | f1=0.6731
+2026-06-06 00:38:40.837 | INFO     | __main__:run_training:741 -   Ep  30 | loss=0.0855 | auroc=0.6141 | auprc=0.5983 | f1=0.6468
+2026-06-06 00:38:41.842 | INFO     | __main__:run_training:741 -   Ep  40 | loss=0.0846 | auroc=0.6265 | auprc=0.6027 | f1=0.6315
+2026-06-06 00:38:42.853 | INFO     | __main__:run_training:741 -   Ep  50 | loss=0.0836 | auroc=0.6330 | auprc=0.6270 | f1=0.6431
+2026-06-06 00:38:43.869 | INFO     | __main__:run_training:741 -   Ep  60 | loss=0.0821 | auroc=0.6417 | auprc=0.6422 | f1=0.6084
+2026-06-06 00:38:44.863 | INFO     | __main__:run_training:741 -   Ep  70 | loss=0.0807 | auroc=0.6433 | auprc=0.6641 | f1=0.6226
+2026-06-06 00:38:45.861 | INFO     | __main__:run_training:741 -   Ep  80 | loss=0.0784 | auroc=0.6354 | auprc=0.6607 | f1=0.6094
+2026-06-06 00:38:46.853 | INFO     | __main__:run_training:741 -   Ep  90 | loss=0.0771 | auroc=0.6315 | auprc=0.6620 | f1=0.6117
+2026-06-06 00:38:47.449 | INFO     | __main__:run_training:749 -   Early stop epoch 96, best AUROC=0.6442
+2026-06-06 00:38:47.453 | INFO     | __main__:run_training:753 -   Best: epoch 71, val AUROC=0.6442
+2026-06-06 00:38:47.548 | INFO     | __main__:main:1038 -   Test AUROC: 0.5921 | AUPRC: 0.6263 | F1: 0.5913
+2026-06-06 00:38:48.666 | INFO     | __main__:rank_candidates:858 -   Candidates: 3,583 | Class I: 1,989 | Class II: 1,594
+2026-06-06 00:38:48.666 | INFO     | __main__:rank_candidates:862 -   TCR-confirmed: 659
+2026-06-06 00:38:48.666 | INFO     | __main__:rank_candidates:863 -   Structural gene: 2,249
+2026-06-06 00:38:48.667 | INFO     | __main__:rank_candidates:864 -   True pos in top 50: 50 / 50
+2026-06-06 00:38:48.687 | INFO     | __main__:main:1054 -   Saved COVID v3 candidate CSVs
+2026-06-06 00:38:49.162 | INFO     | __main__:save_plots:907 -   Saved 11_covid_v3_training.png
+2026-06-06 00:38:49.631 | INFO     | __main__:save_plots:933 -   Saved 12_covid_v3_roc_pr.png
+2026-06-06 00:38:49.650 | INFO     | __main__:main:1058 -   Total time: 15.1s
+2026-06-06 00:41:27.160 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 00:41:27.161 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 00:41:27.166 | INFO     | __main__:load_data:215 - Loading COVID embeddings with v3 enhancements...
+2026-06-06 00:41:27.187 | INFO     | __main__:build_position_features:167 -   Building position-AA features for 8,348 epitopes...
+2026-06-06 00:41:27.248 | INFO     | __main__:load_data:237 -   Epitope dim: 320 ESM + 500 pos-AA + 1 tcr_confirmed = 821
+2026-06-06 00:41:27.250 | INFO     | __main__:load_data:250 -   Using active protein metadata (11 proteins)
+2026-06-06 00:41:27.251 | INFO     | __main__:load_data:260 -   Embedding file has 17 proteins, graph has 11 active proteins — aligning...
+2026-06-06 00:41:27.251 | INFO     | __main__:load_data:266 -   Using protein embeddings from saved graph: (11, 320)
+2026-06-06 00:41:27.253 | INFO     | __main__:build_covid_protein_features:193 -   Structural proteins: 4 | Spike: 1 | Conserved: 3
+2026-06-06 00:41:27.254 | INFO     | __main__:load_data:274 -   Protein dim: 320 ESM + 4 annotation = 324
+2026-06-06 00:41:27.256 | INFO     | __main__:load_data:283 -   HLA dim: 320 (16 alleles)
+2026-06-06 00:41:27.257 | INFO     | __main__:load_data:293 -   TCR nodes: 9,333 gold-standard CDR3s
+2026-06-06 00:41:27.329 | INFO     | __main__:load_data:303 -   Nodes — Epitopes: 8,348 | Proteins: 11 | HLA: 16 | TCR: 9,333
+2026-06-06 00:41:27.346 | INFO     | __main__:build_graph:501 -   epitope feature dim: 821
+2026-06-06 00:41:27.347 | INFO     | __main__:build_graph:501 -   protein feature dim: 324
+2026-06-06 00:41:27.347 | INFO     | __main__:build_graph:501 -   hla feature dim: 320
+2026-06-06 00:41:27.347 | INFO     | __main__:build_graph:501 -   tcr feature dim: 320
+2026-06-06 00:41:27.348 | INFO     | __main__:build_graph:503 - Building edges...
+2026-06-06 00:41:27.543 | INFO     | __main__:protein_epitope_edges:420 -   Protein→epitope edges: 8,309
+2026-06-06 00:41:27.568 | INFO     | __main__:epitope_hla_edges:443 -   Epitope→HLA edges: 25,044
+2026-06-06 00:41:27.726 | INFO     | __main__:epitope_tcr_edges:467 -   Epitope→TCR edges: 9,428
+2026-06-06 00:41:29.258 | INFO     | __main__:sim_edges:356 -   Similarity edges (k=8, t=0.7): 66,772
+2026-06-06 00:41:29.266 | INFO     | __main__:build_graph:512 -   Total edges: 109,553
+2026-06-06 00:41:29.844 | INFO     | __main__:main:993 -   Node input dims: {'epitope': 821, 'protein': 324, 'hla': 320, 'tcr': 320}
+2026-06-06 00:41:29.959 | INFO     | __main__:main:1008 -   Parameters: 1,830,337 | Conv out dim: 256
+2026-06-06 00:41:29.968 | INFO     | __main__:make_splits:631 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 00:41:29.968 | INFO     | __main__:make_splits:632 -   Positives — train: 2,949
+2026-06-06 00:41:31.404 | INFO     | __main__:run_training:720 -   Ep  10 | loss=0.6905 | auroc=0.6023 | auprc=0.5971 | f1=0.3812
+2026-06-06 00:41:32.405 | INFO     | __main__:run_training:720 -   Ep  20 | loss=0.6865 | auroc=0.6131 | auprc=0.6068 | f1=0.5323
+2026-06-06 00:41:33.420 | INFO     | __main__:run_training:720 -   Ep  30 | loss=0.6689 | auroc=0.6366 | auprc=0.6336 | f1=0.5230
+2026-06-06 00:41:34.413 | INFO     | __main__:run_training:720 -   Ep  40 | loss=0.6448 | auroc=0.6286 | auprc=0.6403 | f1=0.5075
+2026-06-06 00:41:35.411 | INFO     | __main__:run_training:720 -   Ep  50 | loss=0.6253 | auroc=0.6364 | auprc=0.6619 | f1=0.5412
+2026-06-06 00:41:36.409 | INFO     | __main__:run_training:720 -   Ep  60 | loss=0.6068 | auroc=0.6376 | auprc=0.6665 | f1=0.5224
+2026-06-06 00:41:37.394 | INFO     | __main__:run_training:720 -   Ep  70 | loss=0.5916 | auroc=0.6317 | auprc=0.6640 | f1=0.5169
+2026-06-06 00:41:38.089 | INFO     | __main__:run_training:728 -   Early stop epoch 77, best AUROC=0.6386
+2026-06-06 00:41:38.094 | INFO     | __main__:run_training:732 -   Best: epoch 52, val AUROC=0.6386
+2026-06-06 00:41:38.184 | INFO     | __main__:main:1017 -   Test AUROC: 0.5846 | AUPRC: 0.6277 | F1: 0.4869
+2026-06-06 00:41:39.193 | INFO     | __main__:rank_candidates:837 -   Candidates: 2,351 | Class I: 1,456 | Class II: 895
+2026-06-06 00:41:39.194 | INFO     | __main__:rank_candidates:841 -   TCR-confirmed: 662
+2026-06-06 00:41:39.194 | INFO     | __main__:rank_candidates:842 -   Structural gene: 1,311
+2026-06-06 00:41:39.195 | INFO     | __main__:rank_candidates:843 -   True pos in top 50: 50 / 50
+2026-06-06 00:41:39.216 | INFO     | __main__:main:1033 -   Saved COVID v3 candidate CSVs
+2026-06-06 00:41:39.733 | INFO     | __main__:save_plots:886 -   Saved 11_covid_v3_training.png
+2026-06-06 00:41:40.227 | INFO     | __main__:save_plots:912 -   Saved 12_covid_v3_roc_pr.png
+2026-06-06 00:41:40.243 | INFO     | __main__:main:1037 -   Total time: 13.1s
+2026-06-06 00:44:20.073 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 00:44:20.074 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 00:44:20.084 | INFO     | __main__:load_data:217 - Loading COVID embeddings with v3 enhancements...
+2026-06-06 00:44:20.106 | INFO     | __main__:build_position_features:169 -   Building position-AA features for 8,348 epitopes...
+2026-06-06 00:44:20.159 | INFO     | __main__:load_data:239 -   Epitope dim: 320 ESM + 500 pos-AA + 1 tcr_confirmed = 821
+2026-06-06 00:44:20.161 | INFO     | __main__:load_data:252 -   Using active protein metadata (11 proteins)
+2026-06-06 00:44:20.161 | INFO     | __main__:load_data:262 -   Embedding file has 17 proteins, graph has 11 active proteins — aligning...
+2026-06-06 00:44:20.162 | INFO     | __main__:load_data:268 -   Using protein embeddings from saved graph: (11, 320)
+2026-06-06 00:44:20.164 | INFO     | __main__:build_covid_protein_features:195 -   Structural proteins: 4 | Spike: 1 | Conserved: 3
+2026-06-06 00:44:20.164 | INFO     | __main__:load_data:276 -   Protein dim: 320 ESM + 4 annotation = 324
+2026-06-06 00:44:20.166 | INFO     | __main__:load_data:285 -   HLA dim: 320 (16 alleles)
+2026-06-06 00:44:20.167 | INFO     | __main__:load_data:295 -   TCR nodes: 9,333 gold-standard CDR3s
+2026-06-06 00:44:20.232 | INFO     | __main__:load_data:305 -   Nodes — Epitopes: 8,348 | Proteins: 11 | HLA: 16 | TCR: 9,333
+2026-06-06 00:44:20.248 | INFO     | __main__:build_graph:503 -   epitope feature dim: 821
+2026-06-06 00:44:20.249 | INFO     | __main__:build_graph:503 -   protein feature dim: 324
+2026-06-06 00:44:20.249 | INFO     | __main__:build_graph:503 -   hla feature dim: 320
+2026-06-06 00:44:20.249 | INFO     | __main__:build_graph:503 -   tcr feature dim: 320
+2026-06-06 00:44:20.249 | INFO     | __main__:build_graph:505 - Building edges...
+2026-06-06 00:44:20.418 | INFO     | __main__:protein_epitope_edges:422 -   Protein→epitope edges: 8,309
+2026-06-06 00:44:20.446 | INFO     | __main__:epitope_hla_edges:445 -   Epitope→HLA edges: 25,044
+2026-06-06 00:44:20.589 | INFO     | __main__:epitope_tcr_edges:469 -   Epitope→TCR edges: 9,428
+2026-06-06 00:44:22.136 | INFO     | __main__:sim_edges:358 -   Similarity edges (k=8, t=0.8): 66,762
+2026-06-06 00:44:22.143 | INFO     | __main__:build_graph:514 -   Total edges: 109,543
+2026-06-06 00:44:22.708 | INFO     | __main__:main:992 -   Node input dims: {'epitope': 821, 'protein': 324, 'hla': 320, 'tcr': 320}
+2026-06-06 00:44:22.763 | INFO     | __main__:main:1007 -   Parameters: 492,545 | Conv out dim: 128
+2026-06-06 00:44:22.767 | INFO     | __main__:make_splits:630 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 00:44:22.768 | INFO     | __main__:make_splits:631 -   Positives — train: 2,949
+2026-06-06 00:44:23.605 | INFO     | __main__:run_training:719 -   Ep  10 | loss=0.6961 | auroc=0.5775 | auprc=0.5993 | f1=0.5071
+2026-06-06 00:44:24.101 | INFO     | __main__:run_training:719 -   Ep  20 | loss=0.6929 | auroc=0.5793 | auprc=0.5954 | f1=0.6107
+2026-06-06 00:44:24.608 | INFO     | __main__:run_training:719 -   Ep  30 | loss=0.6914 | auroc=0.6061 | auprc=0.6080 | f1=0.6560
+2026-06-06 00:44:25.110 | INFO     | __main__:run_training:719 -   Ep  40 | loss=0.6883 | auroc=0.6202 | auprc=0.6125 | f1=0.6459
+2026-06-06 00:44:25.591 | INFO     | __main__:run_training:719 -   Ep  50 | loss=0.6852 | auroc=0.6265 | auprc=0.6151 | f1=0.6259
+2026-06-06 00:44:26.085 | INFO     | __main__:run_training:719 -   Ep  60 | loss=0.6716 | auroc=0.6421 | auprc=0.6429 | f1=0.5978
+2026-06-06 00:44:26.563 | INFO     | __main__:run_training:719 -   Ep  70 | loss=0.6618 | auroc=0.6482 | auprc=0.6637 | f1=0.5561
+2026-06-06 00:44:27.047 | INFO     | __main__:run_training:719 -   Ep  80 | loss=0.6489 | auroc=0.6556 | auprc=0.6717 | f1=0.5925
+2026-06-06 00:44:27.525 | INFO     | __main__:run_training:719 -   Ep  90 | loss=0.6368 | auroc=0.6524 | auprc=0.6771 | f1=0.5814
+2026-06-06 00:44:28.000 | INFO     | __main__:run_training:719 -   Ep 100 | loss=0.6209 | auroc=0.6519 | auprc=0.6805 | f1=0.5678
+2026-06-06 00:44:28.327 | INFO     | __main__:run_training:727 -   Early stop epoch 107, best AUROC=0.6587
+2026-06-06 00:44:28.332 | INFO     | __main__:run_training:731 -   Best: epoch 82, val AUROC=0.6587
+2026-06-06 00:44:28.385 | INFO     | __main__:main:1016 -   Test AUROC: 0.5992 | AUPRC: 0.6286 | F1: 0.5364
+2026-06-06 00:44:29.490 | INFO     | __main__:rank_candidates:836 -   Candidates: 2,687 | Class I: 1,657 | Class II: 1,030
+2026-06-06 00:44:29.491 | INFO     | __main__:rank_candidates:840 -   TCR-confirmed: 650
+2026-06-06 00:44:29.491 | INFO     | __main__:rank_candidates:841 -   Structural gene: 1,541
+2026-06-06 00:44:29.491 | INFO     | __main__:rank_candidates:842 -   True pos in top 50: 50 / 50
+2026-06-06 00:44:29.508 | INFO     | __main__:main:1032 -   Saved COVID v3 candidate CSVs
+2026-06-06 00:44:29.956 | INFO     | __main__:save_plots:885 -   Saved 11_covid_v3_training.png
+2026-06-06 00:44:30.467 | INFO     | __main__:save_plots:911 -   Saved 12_covid_v3_roc_pr.png
+2026-06-06 00:44:30.486 | INFO     | __main__:main:1036 -   Total time: 10.4s
+2026-06-06 00:46:41.339 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 00:46:41.341 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 00:46:41.347 | INFO     | __main__:load_data:215 - Loading COVID embeddings with v3 enhancements...
+2026-06-06 00:46:41.390 | INFO     | __main__:load_data:236 -   Epitope dim: 320 ESM + 1 tcr_confirmed = 321 (position-AA dropped — too few samples)
+2026-06-06 00:46:41.392 | INFO     | __main__:load_data:248 -   Using active protein metadata (11 proteins)
+2026-06-06 00:46:41.392 | INFO     | __main__:load_data:258 -   Embedding file has 17 proteins, graph has 11 active proteins — aligning...
+2026-06-06 00:46:41.392 | INFO     | __main__:load_data:264 -   Using protein embeddings from saved graph: (11, 320)
+2026-06-06 00:46:41.394 | INFO     | __main__:build_covid_protein_features:193 -   Structural proteins: 4 | Spike: 1 | Conserved: 3
+2026-06-06 00:46:41.394 | INFO     | __main__:load_data:272 -   Protein dim: 320 ESM + 4 annotation = 324
+2026-06-06 00:46:41.395 | INFO     | __main__:load_data:281 -   HLA dim: 320 (16 alleles)
+2026-06-06 00:46:41.396 | INFO     | __main__:load_data:291 -   TCR nodes: 9,333 gold-standard CDR3s
+2026-06-06 00:46:41.464 | INFO     | __main__:load_data:301 -   Nodes — Epitopes: 8,348 | Proteins: 11 | HLA: 16 | TCR: 9,333
+2026-06-06 00:46:41.486 | INFO     | __main__:build_graph:499 -   epitope feature dim: 321
+2026-06-06 00:46:41.487 | INFO     | __main__:build_graph:499 -   protein feature dim: 324
+2026-06-06 00:46:41.487 | INFO     | __main__:build_graph:499 -   hla feature dim: 320
+2026-06-06 00:46:41.488 | INFO     | __main__:build_graph:499 -   tcr feature dim: 320
+2026-06-06 00:46:41.488 | INFO     | __main__:build_graph:501 - Building edges...
+2026-06-06 00:46:41.684 | INFO     | __main__:protein_epitope_edges:418 -   Protein→epitope edges: 8,309
+2026-06-06 00:46:41.709 | INFO     | __main__:epitope_hla_edges:441 -   Epitope→HLA edges: 25,044
+2026-06-06 00:46:41.849 | INFO     | __main__:epitope_tcr_edges:465 -   Epitope→TCR edges: 9,428
+2026-06-06 00:46:43.374 | INFO     | __main__:sim_edges:354 -   Similarity edges (k=6, t=0.83): 50,072
+2026-06-06 00:46:43.380 | INFO     | __main__:build_graph:510 -   Total edges: 92,853
+2026-06-06 00:46:43.936 | INFO     | __main__:main:988 -   Node input dims: {'epitope': 321, 'protein': 324, 'hla': 320, 'tcr': 320}
+2026-06-06 00:46:43.988 | INFO     | __main__:main:1003 -   Parameters: 428,545 | Conv out dim: 128
+2026-06-06 00:46:43.993 | INFO     | __main__:make_splits:626 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 00:46:43.993 | INFO     | __main__:make_splits:627 -   Positives — train: 2,949
+2026-06-06 00:46:44.868 | INFO     | __main__:run_training:715 -   Ep  10 | loss=0.6950 | auroc=0.5891 | auprc=0.5942 | f1=0.6674
+2026-06-06 00:46:45.381 | INFO     | __main__:run_training:715 -   Ep  20 | loss=0.6935 | auroc=0.5983 | auprc=0.6198 | f1=0.6003
+2026-06-06 00:46:45.807 | INFO     | __main__:run_training:715 -   Ep  30 | loss=0.6893 | auroc=0.6120 | auprc=0.6141 | f1=0.4731
+2026-06-06 00:46:46.258 | INFO     | __main__:run_training:715 -   Ep  40 | loss=0.6858 | auroc=0.6165 | auprc=0.6215 | f1=0.5436
+2026-06-06 00:46:46.694 | INFO     | __main__:run_training:715 -   Ep  50 | loss=0.6797 | auroc=0.6259 | auprc=0.6614 | f1=0.5633
+2026-06-06 00:46:47.166 | INFO     | __main__:run_training:715 -   Ep  60 | loss=0.6631 | auroc=0.6580 | auprc=0.6965 | f1=0.5383
+2026-06-06 00:46:47.603 | INFO     | __main__:run_training:715 -   Ep  70 | loss=0.6503 | auroc=0.6602 | auprc=0.6973 | f1=0.5456
+2026-06-06 00:46:48.056 | INFO     | __main__:run_training:715 -   Ep  80 | loss=0.6413 | auroc=0.6646 | auprc=0.7028 | f1=0.5103
+2026-06-06 00:46:48.501 | INFO     | __main__:run_training:715 -   Ep  90 | loss=0.6313 | auroc=0.6709 | auprc=0.7053 | f1=0.5793
+2026-06-06 00:46:48.936 | INFO     | __main__:run_training:715 -   Ep 100 | loss=0.6228 | auroc=0.6654 | auprc=0.7034 | f1=0.4594
+2026-06-06 00:46:49.345 | INFO     | __main__:run_training:723 -   Early stop epoch 109, best AUROC=0.6720
+2026-06-06 00:46:49.349 | INFO     | __main__:run_training:727 -   Best: epoch 89, val AUROC=0.6720
+2026-06-06 00:46:49.399 | INFO     | __main__:main:1012 -   Test AUROC: 0.6385 | AUPRC: 0.6912 | F1: 0.5859
+2026-06-06 00:46:50.635 | INFO     | __main__:rank_candidates:832 -   Candidates: 2,997 | Class I: 1,565 | Class II: 1,432
+2026-06-06 00:46:50.635 | INFO     | __main__:rank_candidates:836 -   TCR-confirmed: 668
+2026-06-06 00:46:50.636 | INFO     | __main__:rank_candidates:837 -   Structural gene: 1,853
+2026-06-06 00:46:50.636 | INFO     | __main__:rank_candidates:838 -   True pos in top 50: 50 / 50
+2026-06-06 00:46:50.659 | INFO     | __main__:main:1028 -   Saved COVID v3 candidate CSVs
+2026-06-06 00:46:51.123 | INFO     | __main__:save_plots:881 -   Saved 11_covid_v3_training.png
+2026-06-06 00:46:52.070 | INFO     | __main__:save_plots:907 -   Saved 12_covid_v3_roc_pr.png
+2026-06-06 00:46:52.089 | INFO     | __main__:main:1032 -   Total time: 10.7s

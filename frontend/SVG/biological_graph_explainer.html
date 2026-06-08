@@ -1,0 +1,214 @@
+
+<style>
+  #graph-wrap { padding: 1rem 0; font-family: var(--font-sans); }
+  #graph-wrap canvas { display: block; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
+  .info-panel { margin-top: 16px; padding: 14px 16px; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); min-height: 80px; }
+  .info-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+  .info-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .hint { font-size: 12px; color: var(--color-text-tertiary); margin-top: 8px; text-align: center; }
+</style>
+<div id="graph-wrap">
+  <canvas id="gc" width="660" height="400"></canvas>
+  <p class="hint">Click any node to learn what it is and how it connects</p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div>Epitope</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0F6E56"></div>TB Protein</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#993C1D"></div>HLA allele</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>TCR (gold standard)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3C3489" style="border-radius:3px"></div>Similar epitope</div>
+  </div>
+  <div class="info-panel" id="info-panel">
+    <div class="info-title" id="info-title">Click any node to explore</div>
+    <div class="info-body" id="info-body">This is a simplified view of the actual heterogeneous graph. The central node is RLPAKAPLL — the #1 ranked epitope from inhA. Click on it and its neighbours to understand what each connection means for the GNN.</div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('gc');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+const isDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const COLORS = {
+  epitope:  { fill:'#EEEDFE', stroke:'#534AB7', text:'#3C3489' },
+  protein:  { fill:'#E1F5EE', stroke:'#0F6E56', text:'#085041' },
+  hla:      { fill:'#FAECE7', stroke:'#993C1D', text:'#712B13' },
+  tcr:      { fill:'#FAEEDA', stroke:'#854F0B', text:'#633806' },
+  similar:  { fill:'#EEEDFE', stroke:'#AFA9EC', text:'#534AB7' },
+};
+const COLORS_DARK = {
+  epitope:  { fill:'#3C3489', stroke:'#AFA9EC', text:'#CECBF6' },
+  protein:  { fill:'#085041', stroke:'#5DCAA5', text:'#9FE1CB' },
+  hla:      { fill:'#712B13', stroke:'#F0997B', text:'#F5C4B3' },
+  tcr:      { fill:'#633806', stroke:'#EF9F27', text:'#FAC775' },
+  similar:  { fill:'#26215C', stroke:'#7F77DD', text:'#CECBF6' },
+};
+
+const nodes = [
+  { id:0, type:'epitope', x:330, y:200, r:28, label:'RLPAKAPLL', sub:'Epitope #1 (inhA)', main:true,
+    info:'This is your top-ranked epitope. 9 amino acids long. Comes from the inhA gene — the primary isoniazid drug target in TB. It is ranked #1 because: the GNN score is 0.989, it has TCR confirmation from VDJdb (gold standard), and inhA is an essential gene TB cannot mutate away.' },
+  { id:1, type:'protein', x:130, y:100, r:22, label:'inhA protein', sub:'262 aa · essential gene',
+    info:'The source protein for RLPAKAPLL. inhA encodes enoyl-ACP reductase — the enzyme that isoniazid (the main TB antibiotic) targets. MDR-TB mutations in inhA make isoniazid useless, but T-cells can still attack the same epitope regardless. This is why it is ranked #1 for MDR-TB vaccines.' },
+  { id:2, type:'hla', x:540, y:90, r:20, label:'HLA-A*02:01', sub:'Most common worldwide',
+    info:'This HLA allele can physically present RLPAKAPLL to CD8+ T-cells. HLA-A*02:01 is present in about 29% of the global population. Its groove accepts peptides with Leucine at position 2 — which RLPAKAPLL satisfies. Without this HLA allele, this epitope would be invisible to your immune system.' },
+  { id:3, type:'hla', x:570, y:210, r:18, label:'HLA-A*02:06', sub:'East Asian populations',
+    info:'A different HLA allele that also presents RLPAKAPLL. HLA-A*02:06 is in the same supertype family as A*02:01 — it has a similar groove shape. In the graph, these two HLA nodes are connected by a same_supertype edge. Having multiple HLA alleles present the same epitope increases population coverage.' },
+  { id:4, type:'hla', x:520, y:330, r:18, label:'HLA-B*07:02', sub:'European populations',
+    info:'A third HLA allele connected to this epitope. B*07:02 is in a different supertype family. Each additional HLA allele connection increases the HLA coverage score in the composite ranking formula. RLPAKAPLL scores highly here because it can be presented by multiple HLA types.' },
+  { id:5, type:'tcr', x:130, y:310, r:22, label:'TCR CDR3-1', sub:'VDJdb gold standard',
+    info:'This is the most important edge in the graph. A real human T-cell receptor sequence from VDJdb that has been experimentally shown to physically bind to RLPAKAPLL in a lab experiment. This edge gives RLPAKAPLL a TCR evidence score of 1.0 — the maximum possible. Only 57 such edges exist in the entire TB dataset.' },
+  { id:6, type:'similar', x:200, y:220, r:17, label:'RLPAKAPLV', sub:'Similar epitope',
+    info:'A neighbouring epitope that is biochemically similar to RLPAKAPLL — the similar_to edge. It differs by only one amino acid at position 9 (L→V). Through graph message passing, RLPAKAPLL shares some of its high confidence score with this neighbour, and vice versa. This is how the GNN generalises from known positives to unknown candidates.' },
+  { id:7, type:'similar', x:390, y:330, r:17, label:'RLPSKAPLL', sub:'Similar epitope',
+    info:'Another similar epitope connected by a similar_to edge (k-NN, cosine similarity > 0.70 in ESM-2 embedding space). This one has a serine substitution at position 4. If this epitope were tested in a lab, the GNN predicts it would also be immunogenic — because it is close in embedding space to a confirmed gold standard.' },
+];
+
+const edges = [
+  { from:0, to:1, label:'source_of', color:'#0F6E56',   info:'Protein → Epitope: inhA protein is the source of RLPAKAPLL. This tells the GNN that this epitope comes from an essential gene.' },
+  { from:0, to:2, label:'binds_to',  color:'#993C1D',   info:'Epitope → HLA: cosine similarity between ESM-2 embeddings tells the GNN this epitope fits into HLA-A*02:01\'s binding groove.' },
+  { from:0, to:3, label:'binds_to',  color:'#993C1D',   info:'Epitope → HLA: same mechanism, different allele. Multiple HLA connections increase the HLA coverage score.' },
+  { from:0, to:4, label:'binds_to',  color:'#993C1D',   info:'Epitope → HLA: third HLA allele from a different supertype family. Broader coverage across supertype groups.' },
+  { from:0, to:5, label:'recognized_by', color:'#854F0B', info:'Epitope → TCR: GOLD STANDARD edge. A real human T-cell CDR3 sequence from VDJdb experimentally confirmed to bind RLPAKAPLL. Only 57 such edges exist in the entire graph.' },
+  { from:0, to:6, label:'similar_to', color:'#7F77DD',  info:'Epitope → Epitope: ESM-2 cosine similarity > 0.70. RLPAKAPLV shares biochemical context with RLPAKAPLL. The GNN propagates signal between similar epitopes.' },
+  { from:0, to:7, label:'similar_to', color:'#7F77DD',  info:'Another similar_to edge. Without these 191,002 edges, the GNN could not generalise — it could only score epitopes with direct experimental evidence.' },
+  { from:2, to:3, label:'same_supertype', color:'#B4B2A9', info:'HLA → HLA: both A*02:01 and A*02:06 are in the A02 supertype family. They have similar groove shapes and tend to bind the same peptides.' },
+];
+
+let selected = null;
+let hovered  = null;
+
+function getC(type) { return isDark() ? COLORS_DARK[type] : COLORS[type]; }
+
+function drawArrow(x1,y1,x2,y2,color,label,highlighted) {
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len, uy=dy/len;
+  const toNode = nodes.find(n=>n.x===x2&&n.y===y2)||{r:18};
+  const fx=x1+ux*28, fy=y1+uy*28;
+  const tx=x2-ux*(toNode.r+4), ty=y2-uy*(toNode.r+4);
+
+  ctx.save();
+  ctx.globalAlpha = highlighted ? 1 : 0.35;
+  ctx.strokeStyle = color;
+  ctx.lineWidth   = highlighted ? 2 : 1;
+  ctx.setLineDash(label==='similar_to'?[4,3]:[]);
+  ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(tx,ty); ctx.stroke();
+  ctx.setLineDash([]);
+
+  const angle = Math.atan2(ty-fy, tx-fx);
+  ctx.save();
+  ctx.translate(tx,ty); ctx.rotate(angle);
+  ctx.fillStyle=color;
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-8,4); ctx.lineTo(-8,-4); ctx.closePath(); ctx.fill();
+  ctx.restore();
+
+  if(highlighted && label) {
+    const mx=(fx+tx)/2, my=(fy+ty)/2;
+    ctx.font='11px var(--font-sans, sans-serif)';
+    ctx.textAlign='center';
+    ctx.fillStyle=isDark()?'#e2e8f0':'#3d3d3a';
+    const bg = isDark()?'rgba(17,24,39,0.85)':'rgba(255,255,255,0.9)';
+    const tw = ctx.measureText(label).width;
+    ctx.fillStyle=bg;
+    ctx.fillRect(mx-tw/2-4, my-8, tw+8, 14);
+    ctx.fillStyle=color;
+    ctx.fillText(label, mx, my+2);
+  }
+  ctx.restore();
+}
+
+function drawNode(n, isHovered, isSelected) {
+  const c = getC(n.type);
+  ctx.save();
+  const scale = isSelected ? 1.15 : isHovered ? 1.08 : 1;
+  ctx.translate(n.x, n.y);
+  ctx.scale(scale, scale);
+
+  ctx.beginPath(); ctx.arc(0, 0, n.r, 0, Math.PI*2);
+  ctx.fillStyle = c.fill; ctx.fill();
+  ctx.strokeStyle = isSelected ? c.stroke : c.stroke;
+  ctx.lineWidth = isSelected ? 2.5 : n.main ? 2 : 1.5;
+  ctx.stroke();
+
+  if(n.main) {
+    ctx.beginPath(); ctx.arc(0,0,n.r+5,0,Math.PI*2);
+    ctx.strokeStyle=c.stroke; ctx.lineWidth=1; ctx.globalAlpha=0.3; ctx.stroke();
+    ctx.globalAlpha=1;
+  }
+
+  ctx.font = `${n.main?'500 ':''}${n.main?11:10}px var(--font-mono, monospace)`;
+  ctx.textAlign='center'; ctx.fillStyle=c.text;
+  ctx.fillText(n.label.length>10?n.label.slice(0,9)+'…':n.label, 0, n.main?-3:2);
+  if(n.main) { ctx.font='10px var(--font-sans,sans-serif)'; ctx.fillText('inhA',0,10); }
+
+  ctx.restore();
+}
+
+function draw() {
+  ctx.clearRect(0,0,W,H);
+
+  edges.forEach(e => {
+    const fn=nodes[e.from], tn=nodes[e.to];
+    const hi = selected===e.from||selected===e.to||hovered===e.from||hovered===e.to;
+    drawArrow(fn.x,fn.y,tn.x,tn.y,e.color,e.label,hi);
+  });
+
+  nodes.forEach((n,i) => drawNode(n, hovered===i, selected===i));
+}
+
+function getNode(mx,my) {
+  for(let i=0;i<nodes.length;i++) {
+    const n=nodes[i];
+    const dx=mx-n.x, dy=my-n.y;
+    if(dx*dx+dy*dy <= (n.r+6)*(n.r+6)) return i;
+  }
+  return null;
+}
+
+function getRect(canvas) {
+  const r = canvas.getBoundingClientRect();
+  return { scaleX: canvas.width/r.width, scaleY: canvas.height/r.height, left:r.left, top:r.top };
+}
+
+canvas.addEventListener('mousemove', e => {
+  const r=getRect(canvas);
+  const mx=(e.clientX-r.left)*r.scaleX, my=(e.clientY-r.top)*r.scaleY;
+  const prev=hovered; hovered=getNode(mx,my);
+  canvas.style.cursor=hovered!==null?'pointer':'default';
+  if(hovered!==prev) draw();
+});
+
+canvas.addEventListener('click', e => {
+  const r=getRect(canvas);
+  const mx=(e.clientX-r.left)*r.scaleX, my=(e.clientY-r.top)*r.scaleY;
+  const n=getNode(mx,my);
+  if(n!==null) {
+    selected = selected===n ? null : n;
+    const node=nodes[n];
+    document.getElementById('info-title').textContent = node.label + (node.sub ? ' — ' + node.sub : '');
+    document.getElementById('info-body').textContent  = node.info;
+  } else {
+    const edgeHit = edges.find(edge => {
+      const fn=nodes[edge.from], tn=nodes[edge.to];
+      const ex=(e.clientX-getRect(canvas).left)*getRect(canvas).scaleX;
+      const ey=(e.clientY-getRect(canvas).top)*getRect(canvas).scaleY;
+      const dx=tn.x-fn.x, dy=tn.y-fn.y;
+      const t=((ex-fn.x)*dx+(ey-fn.y)*dy)/(dx*dx+dy*dy);
+      const tc=Math.max(0,Math.min(1,t));
+      const px=fn.x+tc*dx, py=fn.y+tc*dy;
+      return Math.sqrt((ex-px)**2+(ey-py)**2)<10;
+    });
+    if(edgeHit) {
+      selected=null;
+      document.getElementById('info-title').textContent='Edge: '+edgeHit.label;
+      document.getElementById('info-body').textContent=edgeHit.info;
+    }
+  }
+  draw();
+});
+
+draw();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+</script>

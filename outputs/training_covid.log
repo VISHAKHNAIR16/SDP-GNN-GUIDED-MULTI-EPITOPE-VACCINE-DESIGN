@@ -1,0 +1,25 @@
+2026-06-06 00:27:28.348 | INFO     | __main__:<module>:78 - Device: cuda
+2026-06-06 00:27:28.353 | INFO     | __main__:<module>:80 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 00:27:28.935 | INFO     | __main__:load_graph:268 -   Loaded graph: ['epitope', 'protein', 'hla', 'tcr'], 4 edge types
+2026-06-06 00:27:29.073 | INFO     | __main__:load_graph:279 -   Epitope features: 320 (ESM-2) + 1 (tcr_confirmed) = 321 dims
+2026-06-06 00:27:29.074 | INFO     | __main__:load_graph:282 -   Gold-standard epitopes (tcr_confirmed=1): 668 / 8,348 (8.0%)
+2026-06-06 00:27:29.098 | INFO     | __main__:load_graph:290 -   Class balance: 4,213 pos / 4,135 neg (ratio 0.98:1)
+2026-06-06 00:27:29.099 | INFO     | __main__:load_graph:294 -   pos_weight set to 0.98 (TB used 9.6 — COVID is balanced so ~1.0 is correct)
+2026-06-06 00:27:29.239 | INFO     | __main__:probe_hanconv_output_dim:128 -   HANConv probe: in=128, heads=4 → out=128 (averaging heads)
+2026-06-06 00:27:29.253 | INFO     | __main__:make_splits:332 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 00:27:29.254 | INFO     | __main__:make_splits:337 -   Positives — train: 2,949 | val: 632 | test: 632
+2026-06-06 00:27:29.286 | INFO     | __main__:main:715 -   Model parameters: 428,033
+2026-06-06 00:27:29.287 | INFO     | __main__:main:716 -   Epitope input dim: 321 (320 ESM-2 + 1 tcr_confirmed)
+2026-06-06 00:27:30.588 | INFO     | __main__:train:451 -   Ep  10 | loss=0.6853 | auroc=0.6170 | auprc=0.6435 | f1=0.6645
+2026-06-06 00:27:31.032 | INFO     | __main__:train:451 -   Ep  20 | loss=0.6757 | auroc=0.6250 | auprc=0.6623 | f1=0.5745
+2026-06-06 00:27:31.462 | INFO     | __main__:train:451 -   Ep  30 | loss=0.6628 | auroc=0.6425 | auprc=0.6863 | f1=0.4902
+2026-06-06 00:27:31.893 | INFO     | __main__:train:451 -   Ep  40 | loss=0.6428 | auroc=0.6481 | auprc=0.6901 | f1=0.5092
+2026-06-06 00:27:32.332 | INFO     | __main__:train:451 -   Ep  50 | loss=0.6278 | auroc=0.6598 | auprc=0.6954 | f1=0.5645
+2026-06-06 00:27:32.748 | INFO     | __main__:train:451 -   Ep  60 | loss=0.6167 | auroc=0.6630 | auprc=0.6975 | f1=0.5179
+2026-06-06 00:27:33.155 | INFO     | __main__:train:451 -   Ep  70 | loss=0.6102 | auroc=0.6694 | auprc=0.7022 | f1=0.5930
+2026-06-06 00:27:33.554 | INFO     | __main__:train:451 -   Ep  80 | loss=0.6075 | auroc=0.6683 | auprc=0.7006 | f1=0.5767
+2026-06-06 00:27:33.806 | INFO     | __main__:train:459 -   Early stop at epoch 86, best AUROC=0.6723
+2026-06-06 00:27:33.811 | INFO     | __main__:train:466 -   Best: epoch 66, val AUROC=0.6723
+2026-06-06 00:27:33.823 | INFO     | __main__:main:720 -   Training time: 4.5s
+2026-06-06 00:27:34.365 | INFO     | __main__:plot_training_curves:553 -   Saved 09_training_curves_covid.png
+2026-06-06 00:27:34.697 | INFO     | __main__:plot_roc_and_pr:596 -   Saved 10_roc_pr_curves_covid.png

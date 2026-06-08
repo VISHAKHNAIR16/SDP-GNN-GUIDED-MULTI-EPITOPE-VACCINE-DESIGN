@@ -1,0 +1,55 @@
+2026-06-06 21:00:16.136 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 21:00:16.138 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 21:00:16.648 | INFO     | __main__:load_graph:329 -   Graph loaded: ['epitope', 'protein', 'hla', 'tcr'], 4 edge types
+2026-06-06 21:00:16.648 | INFO     | __main__:load_graph:330 -   Epitope ESM-2 dim: 320
+2026-06-06 21:00:16.648 | INFO     | __main__:build_physicochemical_features:292 -   Computing physicochemical features for 8,348 sequences...
+2026-06-06 21:00:17.472 | INFO     | __main__:build_physicochemical_features:295 -   Done in 0.8s | shape=(8348, 7) | mean=[0.444 0.483 0.512 0.124 0.135 0.493 0.318]
+2026-06-06 21:00:17.531 | INFO     | __main__:load_graph:344 -   Epitope features: 320 (ESM-2) + 7 (physicochemical) = 327
+2026-06-06 21:00:17.531 | INFO     | __main__:load_graph:345 -   Class balance: 4,213 pos / 4,135 neg (ratio 0.98:1)
+2026-06-06 21:00:17.531 | INFO     | __main__:load_graph:346 -   NOTE: tcr_confirmed REMOVED from features — TCR signal via edges only
+2026-06-06 21:00:17.612 | INFO     | __main__:probe_hanconv_output_dim:450 -   HANConv probe: in=128, heads=4 → out=128 (averaging heads)
+2026-06-06 21:00:17.621 | INFO     | __main__:make_splits:486 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 21:00:17.621 | INFO     | __main__:make_splits:491 -   Pos in train: 2,949 | val: 632 | test: 632
+2026-06-06 21:00:17.639 | INFO     | __main__:main:877 -   Parameters: 428,801
+2026-06-06 21:00:17.640 | INFO     | __main__:main:878 -   Epitope input dim: 327 (320 ESM-2 + 7 physicochemical)
+2026-06-06 21:00:18.668 | INFO     | __main__:train:596 -   Ep  10 | loss=0.6887 | auroc=0.5788 | auprc=0.5743 | f1=0.6512
+2026-06-06 21:00:19.115 | INFO     | __main__:train:596 -   Ep  20 | loss=0.6862 | auroc=0.5819 | auprc=0.5719 | f1=0.5084
+2026-06-06 21:00:19.578 | INFO     | __main__:train:596 -   Ep  30 | loss=0.6822 | auroc=0.5861 | auprc=0.5786 | f1=0.5853
+2026-06-06 21:00:20.049 | INFO     | __main__:train:596 -   Ep  40 | loss=0.6811 | auroc=0.5903 | auprc=0.5818 | f1=0.5534
+2026-06-06 21:00:20.507 | INFO     | __main__:train:596 -   Ep  50 | loss=0.6785 | auroc=0.5894 | auprc=0.5786 | f1=0.5664
+2026-06-06 21:00:20.916 | INFO     | __main__:train:596 -   Ep  60 | loss=0.6781 | auroc=0.5889 | auprc=0.5786 | f1=0.5743
+2026-06-06 21:00:21.086 | INFO     | __main__:train:604 -   Early stop at epoch 64, best AUROC=0.5911
+2026-06-06 21:00:21.090 | INFO     | __main__:train:608 -   Best: epoch 44, val AUROC=0.5911
+2026-06-06 21:00:21.107 | INFO     | __main__:main:882 -   Training time: 3.5s
+2026-06-06 21:00:21.628 | INFO     | __main__:plot_training:673 -   Saved 19_covid_v2_training.png
+2026-06-06 21:00:22.097 | INFO     | __main__:plot_roc_pr:702 -   Saved 20_covid_v2_roc_pr.png
+2026-06-06 21:00:22.595 | INFO     | __main__:plot_score_distribution:761 -   Saved 21_covid_v2_score_diagnostic.png
+2026-06-06 21:13:08.643 | INFO     | __main__:<module>:95 - Device: cuda
+2026-06-06 21:13:08.645 | INFO     | __main__:<module>:97 - GPU: NVIDIA GeForce RTX 4050 Laptop GPU
+2026-06-06 21:13:09.162 | INFO     | __main__:load_graph:329 -   Graph loaded: ['epitope', 'protein', 'hla', 'tcr'], 4 edge types
+2026-06-06 21:13:09.163 | INFO     | __main__:load_graph:330 -   Epitope ESM-2 dim: 320
+2026-06-06 21:13:09.163 | INFO     | __main__:build_physicochemical_features:292 -   Computing physicochemical features for 8,348 sequences...
+2026-06-06 21:13:09.998 | INFO     | __main__:build_physicochemical_features:295 -   Done in 0.8s | shape=(8348, 7) | mean=[0.444 0.483 0.512 0.124 0.135 0.493 0.318]
+2026-06-06 21:13:10.054 | INFO     | __main__:load_graph:344 -   Epitope features: 320 (ESM-2) + 7 (physicochemical) = 327
+2026-06-06 21:13:10.054 | INFO     | __main__:load_graph:345 -   Class balance: 4,213 pos / 4,135 neg (ratio 0.98:1)
+2026-06-06 21:13:10.055 | INFO     | __main__:load_graph:346 -   NOTE: tcr_confirmed REMOVED from features — TCR signal via edges only
+2026-06-06 21:13:10.463 | INFO     | __main__:_rebuild_similarity_edges:437 -   positive→positive edges (k=8, t=0.8): 33,679
+2026-06-06 21:13:10.811 | INFO     | __main__:_rebuild_similarity_edges:462 -   positive→negative edges (k=3, t=0.9): 12,629
+2026-06-06 21:13:10.811 | INFO     | __main__:_rebuild_similarity_edges:463 -   negative→negative edges: 0 (removed — propagates non-immunogenic signal)
+2026-06-06 21:13:10.812 | INFO     | __main__:_rebuild_similarity_edges:467 -   Similarity edges: 41,722 (random k-NN) → 46,308 (targeted)
+2026-06-06 21:13:10.939 | INFO     | __main__:probe_hanconv_output_dim:580 -   HANConv probe: in=128, heads=4 → out=128 (averaging heads)
+2026-06-06 21:13:10.952 | INFO     | __main__:make_splits:616 -   Train 5,843 | Val 1,252 | Test 1,253
+2026-06-06 21:13:10.953 | INFO     | __main__:make_splits:621 -   Pos in train: 2,949 | val: 632 | test: 632
+2026-06-06 21:13:10.973 | INFO     | __main__:main:1007 -   Parameters: 428,801
+2026-06-06 21:13:10.974 | INFO     | __main__:main:1008 -   Epitope input dim: 327 (320 ESM-2 + 7 physicochemical)
+2026-06-06 21:13:11.777 | INFO     | __main__:train:726 -   Ep  10 | loss=0.6808 | auroc=0.6089 | auprc=0.6018 | f1=0.6825
+2026-06-06 21:13:12.223 | INFO     | __main__:train:726 -   Ep  20 | loss=0.6616 | auroc=0.6246 | auprc=0.6097 | f1=0.6857
+2026-06-06 21:13:12.666 | INFO     | __main__:train:726 -   Ep  30 | loss=0.6331 | auroc=0.6324 | auprc=0.6365 | f1=0.6873
+2026-06-06 21:13:13.088 | INFO     | __main__:train:726 -   Ep  40 | loss=0.6025 | auroc=0.6239 | auprc=0.6339 | f1=0.6884
+2026-06-06 21:13:13.516 | INFO     | __main__:train:726 -   Ep  50 | loss=0.5922 | auroc=0.6082 | auprc=0.6136 | f1=0.6884
+2026-06-06 21:13:13.603 | INFO     | __main__:train:734 -   Early stop at epoch 52, best AUROC=0.6400
+2026-06-06 21:13:13.606 | INFO     | __main__:train:738 -   Best: epoch 32, val AUROC=0.6400
+2026-06-06 21:13:13.615 | INFO     | __main__:main:1012 -   Training time: 2.6s
+2026-06-06 21:13:14.125 | INFO     | __main__:plot_training:803 -   Saved 22_covid_v2_1_training.png
+2026-06-06 21:13:14.588 | INFO     | __main__:plot_roc_pr:832 -   Saved 20_covid_v2_roc_pr.png
+2026-06-06 21:13:15.102 | INFO     | __main__:plot_score_distribution:891 -   Saved 21_covid_v2_score_diagnostic.png

@@ -1,0 +1,38 @@
+2026-06-05 23:10:48.756 | INFO     | __main__:load_esm_model:117 -   Device: cuda
+2026-06-05 23:10:48.760 | INFO     | __main__:load_esm_model:122 -   GPU: NVIDIA GeForce RTX 4050 Laptop GPU (6.4 GB VRAM)
+2026-06-05 23:10:48.760 | INFO     | __main__:load_esm_model:127 -   Loading esm2_t6_8M_UR50D...
+2026-06-05 23:10:49.421 | INFO     | __main__:load_esm_model:134 -   Model loaded in 0.7s
+2026-06-05 23:10:49.422 | INFO     | __main__:load_esm_model:135 -   Embedding dimension: 480
+2026-06-05 23:10:49.422 | INFO     | __main__:load_esm_model:138 -   Model parameters: 7,512,474
+2026-06-05 23:10:49.431 | INFO     | __main__:embed_iedb_epitopes:286 -   Loaded 4,213 positive COVID epitopes
+2026-06-05 23:10:49.431 | INFO     | __main__:embed_iedb_epitopes:287 -   Length range: 8–25 aa, mean 12.8 aa
+2026-06-05 23:10:51.170 | INFO     | __main__:embed_iedb_epitopes:304 -   Completed in 1.7s (0.4 ms/seq)
+2026-06-05 23:10:51.186 | INFO     | __main__:save_checkpoint:246 -   Saved epitopes_positive_covid: shape=(4213, 320), size=5.4 MB
+2026-06-05 23:10:51.186 | INFO     | __main__:save_checkpoint:247 -   Metadata: epitopes_positive_covid_meta.csv (4213 rows)
+2026-06-05 23:10:51.199 | INFO     | __main__:embed_iedb_epitopes:286 -   Loaded 4,135 negative COVID epitopes
+2026-06-05 23:10:51.200 | INFO     | __main__:embed_iedb_epitopes:287 -   Length range: 8–25 aa, mean 13.2 aa
+2026-06-05 23:10:52.331 | INFO     | __main__:embed_iedb_epitopes:304 -   Completed in 1.1s (0.3 ms/seq)
+2026-06-05 23:10:52.351 | INFO     | __main__:save_checkpoint:246 -   Saved epitopes_negative_covid: shape=(4135, 320), size=5.3 MB
+2026-06-05 23:10:52.351 | INFO     | __main__:save_checkpoint:247 -   Metadata: epitopes_negative_covid_meta.csv (4135 rows)
+2026-06-05 23:10:52.364 | INFO     | __main__:embed_covid_proteins:354 -   Loaded covid_proteins_reference.csv: 17 proteins (reference proteome)
+2026-06-05 23:10:52.365 | INFO     | __main__:embed_covid_proteins:364 -   Avg length: 1295 aa (truncating to 512 aa)
+2026-06-05 23:10:52.366 | INFO     | __main__:embed_covid_proteins:380 -   17 proteins ready for embedding
+2026-06-05 23:10:52.573 | INFO     | __main__:embed_covid_proteins:389 -   Completed in 0.2s (0.01s/seq)
+2026-06-05 23:10:52.580 | INFO     | __main__:save_checkpoint:246 -   Saved covid_proteins: shape=(17, 320), size=0.0 MB
+2026-06-05 23:10:52.581 | INFO     | __main__:save_checkpoint:247 -   Metadata: covid_proteins_meta.csv (17 rows)
+2026-06-05 23:10:52.650 | INFO     | __main__:embed_hla_from_vdjdb:450 -   Found 16 unique HLA alleles in VDJdb
+2026-06-05 23:10:52.651 | INFO     | __main__:embed_hla_from_vdjdb:596 -   HLA alleles to embed: 16
+2026-06-05 23:10:52.651 | INFO     | __main__:embed_hla_from_vdjdb:597 -   Skipped (no pseudosequence): 0
+2026-06-05 23:10:52.651 | INFO     | __main__:embed_hla_from_vdjdb:599 -     A: 8 alleles
+2026-06-05 23:10:52.652 | INFO     | __main__:embed_hla_from_vdjdb:599 -     B: 4 alleles
+2026-06-05 23:10:52.652 | INFO     | __main__:embed_hla_from_vdjdb:599 -     DPA: 1 alleles
+2026-06-05 23:10:52.652 | INFO     | __main__:embed_hla_from_vdjdb:599 -     DPA1: 1 alleles
+2026-06-05 23:10:52.652 | INFO     | __main__:embed_hla_from_vdjdb:599 -     DQA1: 1 alleles
+2026-06-05 23:10:52.652 | INFO     | __main__:embed_hla_from_vdjdb:599 -     DRA: 1 alleles
+2026-06-05 23:10:52.687 | INFO     | __main__:embed_hla_from_vdjdb:615 -   Completed in 0.0s
+2026-06-05 23:10:52.689 | INFO     | __main__:save_checkpoint:246 -   Saved hla_covid: shape=(16, 320), size=0.0 MB
+2026-06-05 23:10:52.689 | INFO     | __main__:save_checkpoint:247 -   Metadata: hla_covid_meta.csv (16 rows)
+2026-06-05 23:10:52.773 | INFO     | __main__:validate_embeddings:689 -   Cosine similarity (pos mean vs neg mean): 0.9999
+2026-06-05 23:10:52.773 | WARNING  | __main__:validate_embeddings:695 -   [WARN] Embeddings are very similar — GNN may struggle to distinguish classes
+2026-06-05 23:10:52.785 | INFO     | __main__:validate_embeddings:710 -   TB pos mean norm: 6.041 | COVID pos mean norm: 6.160 | Ratio: 1.020
+2026-06-05 23:10:52.786 | INFO     | __main__:validate_embeddings:716 -   [OK] COVID and TB embeddings are in compatible norm ranges

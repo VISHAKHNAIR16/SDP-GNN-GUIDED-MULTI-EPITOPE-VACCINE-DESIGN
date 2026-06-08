@@ -1,0 +1,12 @@
+uniprot_id,protein_name,gene_name,seq_length,embed_idx
+tr|A0A6H2TXT5|A0A6H2TXT5_SARS2,ORF1ab polyprotein,orf1a,7096,1
+tr|A0A6V7AL95|A0A6V7AL95_SARS2,Surface glycoprotein (Fragment),S,1282,2
+tr|A0A7T8HBH9|A0A7T8HBH9_SARS2,Nucleoprotein,N,419,3
+sp|P0DTC3|AP3A_SARS2,ORF3a protein,3a,275,5
+tr|A0A7U3HGG8|A0A7U3HGG8_SARS2,Membrane protein,M,222,6
+sp|P0DTC8|NS8_SARS2,ORF8 protein,8,121,9
+sp|P0DTC7|NS7A_SARS2,ORF7a protein,7a,121,10
+sp|P0DTD2|ORF9B_SARS2,ORF9b protein,9b,97,11
+tr|A0A6H0JNC3|A0A6H0JNC3_SARS2,Envelope small membrane protein,E,75,13
+sp|P0DTD3|ORF9C_SARS2,Putative ORF9c protein,9c,73,14
+sp|P0DTC6|NS6_SARS2,ORF6 protein,6,61,15
